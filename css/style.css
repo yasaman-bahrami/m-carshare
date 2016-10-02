@@ -24,6 +24,7 @@
 #mainTop{
 	background: #ffffff url("../images/mainBG.jpg") no-repeat right top;
 	border-radius: 0px; 
+	color: white;
 }
 #mainBottom{
 	margin-bottom: 20px;
