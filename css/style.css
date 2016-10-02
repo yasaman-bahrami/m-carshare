@@ -1,0 +1,32 @@
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+#main{
+	padding: 0;
+}
+#header{
+	background: #ffff no-repeat right top;
+	min-height: 40px;
+	margin: 0px;
+}
+#navbar{
+	border-radius: 0px; 
+	margin-bottom: 0px;
+}
+#breadcrumb{
+	margin: 0px;
+}
+#mainTop{
+	background: #ffffff url("../images/mainBG.jpg") no-repeat right top;
+	border-radius: 0px; 
+}
+#mainBottom{
+	margin-bottom: 20px;
+}
+
+
