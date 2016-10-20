@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>M-Car Share</title>
+	
+	<link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid" id="container">
+		<div class="row">
+			<div class="col-md-12" id="main">
+				<div class="page-header" id="header">
+					<div class="row">
+						<div class="col-md-8" >
+							<h3>
+								M-CAR <small>Share Company</small>
+							</h3>
+						</div>
+						<div class="col-md-4 textAlignRight">
+							Admin | <a href="../admin.html">LOGOUT</a>
+						</div>
+					</div>
+				</div>
+				<nav class="navbar navbar-default" id="navbar" role="navigation">
+					<div class="navbar-header">
+						 
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+						</button> 
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="#">Manage Cars</a>
+							</li>
+							<li>
+								<a href="carDamageReports.html">Car Damage Reports</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<ul class="breadcrumb" id="breadcrumb">
+					<li>
+						<a href="../index.html" class="active">Home</a>
+					</li>
+					<li class="active">Add Car</li>
+				</ul>
+				<div class="row" id="contentPanel">
+					<div class="col-md-3 col-sm-0"></div>
+					<div class="col-md-6 col-sm-12" id="mainBottom">
+						<table class="table table-striped table-hover table-bordered" id="carTable">
+							<thead>
+								<tr>
+									<th >
+										
+									</th>
+									<th>
+										#
+									</th>
+									<th>
+										Type
+									</th>
+									<th>
+										Name
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="firstRow">
+									<th >
+										<input type="checkbox">
+									</th>
+									<td>
+										1
+									</td>
+									<td>
+										Luxury
+									</td>
+									<td>
+										Cadillac XTS
+									</td>
+								</tr>
+								<tr id="secondRow">
+									<th >
+										<input type="checkbox">
+									</th>
+									<td>
+										2
+									</td>
+									<td>
+										Convertible
+									</td>
+									<td>
+										Ford Mustang
+									</td>
+								</tr>
+								<tr id="thirdRow">
+									<th >
+										<input type="checkbox">
+									</th>
+									<td>
+										3
+									</td>
+									<td>
+										Premium
+									</td>
+									<td>
+										Nissan Maxima
+									</td>
+								</tr>
+								<tr id="fourthRow">
+									<th >
+										<input type="checkbox">
+									</th>
+									<td>
+										4
+									</td>
+									<td>
+										Compact
+									</td>
+									<td>
+										Nissan Versa Note
+									</td>
+								</tr>
+								<tr id="fifthRow">
+									<th >
+										<input type="checkbox">
+									</th>
+									<td>
+										5
+									</td>
+									<td>
+										Economy
+									</td>
+									<td>
+										Kia Rio
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group btn-group-justified">
+									<a id="modal-393651" href="#modal-container-393651" role="button" class="btn btn-primary" data-toggle="modal" class="btn btn-default">Add Car</a>
+									<a id="modal-393652" href="#modal-container-393652" role="button" class="btn btn-default" data-toggle="modal" class="btn btn-default">Delete Car</a>
+								</div>
+								<div class="modal fade" id="modal-container-393651" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												 
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+													×
+												</button>
+												<h4 class="modal-title" id="myModalLabel">
+													Add Car
+												</h4>
+											</div>
+											<div class="modal-body">
+												<form role="form">
+												<div class="form-group">
+														 
+														<label>
+															Number
+														</label>
+														<input type="input" class="form-control" id="carNumberModal" />
+													</div>
+													<div class="form-group">
+														<label for="select" class="col-lg-2 control-label">Type</label>
+															<select class="form-control" id="carTypeModal">
+																<option>Economy</option>
+																<option>Compact</option>
+																<option>Premium</option>
+																<option>Luxury</option>
+																<option>Convertible</option>
+														</select>
+													</div>
+													<div class="form-group">
+														 
+														<label>
+															Name
+														</label>
+														<input type="input" class="form-control" id="carNameModal" />
+													</div>
+													
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">
+													Close
+												</button> 
+												<button type="button" class="btn btn-primary" id="addCar"> 
+													Save changes
+												</button>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+								<div class="modal fade" id="modal-container-393652" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												 
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+													×
+												</button>
+												<h4 class="modal-title" id="myModalLabel">
+													Remove Car
+												</h4>
+											</div>
+											<div class="modal-body">
+												<p>Are you sure you want to delete this row?</p>
+											</div>
+											<div class="modal-footer">
+												 
+												<button type="button" class="btn btn-default" data-dismiss="modal">
+													NO
+												</button> 
+												<button type="button" class="btn btn-primary" id="removeCar" onclick="deleteRow()"> 
+													YES
+												</button>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-0"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/scripts.js"></script>
+  </body>
+</html>
