@@ -67,6 +67,13 @@
 }
 /*<-------------------------------- Rent Car By Location -------------------------------------->*/
 #map {
-        min-height: 400px;
-		width: 100%
+	min-height: 400px;
+	width: 100%
       }
+/*<-------------------------------- My Current Car -------------------------------------->*/
+#contentPanel{
+	margin-top: 10px;
+}
+#reportDamageBTN{
+	margin-top: 10px;
+}
