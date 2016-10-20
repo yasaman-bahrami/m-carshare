@@ -6,13 +6,40 @@
     margin-left: 0px;
     margin-right: 0px;
 }
+.textAlignRight{
+	text-align: right;
+}
+.textAlignLeft{
+	text-align: left;
+}
+.textAlignCenter{
+	text-align: center;
+}
+.textAlignJustify{
+	text-align: justify;
+}
+.accountBtnGroup{
+	background: none;
+	color: #2c3e50;
+}
+.carModelImg{
+	max-width: 300px;
+	height: auto;
+}
 #main{
 	padding: 0;
 }
-#header{
-	background: #ffff no-repeat right top;
-	min-height: 40px;
+#logo{
+	width: 300px;
+}
+#dropDownLogin{
 	margin: 0px;
+}
+#header{
+	background: #1d9d74 no-repeat right top;
+	min-height: 64px;
+	margin: 0px;
+	padding-top: 1px
 }
 #navbar{
 	border-radius: 0px; 
@@ -24,10 +51,22 @@
 #mainTop{
 	background: #ffffff url("../images/mainBG.jpg") no-repeat right top;
 	border-radius: 0px; 
-	color: white;
+    min-height: 500px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #mainBottom{
 	margin-bottom: 20px;
 }
 
-
+/*<-------------------------------- Sign Up Page -------------------------------------->*/
+#signUpForm{
+	margin-top: 20px;
+}
+/*<-------------------------------- Rent Car By Location -------------------------------------->*/
+#map {
+        min-height: 400px;
+		width: 100%
+      }

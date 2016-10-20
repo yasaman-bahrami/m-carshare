@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>M-Car Share</title>
+	
+	<link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid" id="container">
+		<div class="row">
+			<div class="col-md-12" id="main">
+				<div class="page-header" id="header">
+					<div class="row">
+						<div class="col-md-8" >
+							<h3>
+								M-CAR <small>Share Company</small>
+							</h3>
+						</div>
+						<div class="col-md-4 textAlignRight">
+							<div class="btn-group">
+								<button class="btn accountBtnGroup">
+									LOGIN
+								</button> 
+								<button data-toggle="dropdown" class="btn dropdown-toggle accountBtnGroup">
+									<span class="caret"></span>
+								</button>
+								<div class="dropdown-menu">
+									<div class="well" id="dropDownLogin">
+										<form role="form">
+											<div class="form-group">
+												<label for="exampleInputEmail1">
+													Email Address
+												</label>
+												<input type="email" class="form-control" id="exampleInputEmail1" />
+											</div>
+											<div class="form-group">
+												 
+												<label for="exampleInputPassword1">
+													Password
+												</label>
+												<input type="password" class="form-control" id="exampleInputPassword1" />
+											</div>
+											<button type="submit" class="btn btn-primary">
+												Submit
+											</button>
+										</form>
+									</div>
+								</div>
+								<a href="pages/signUp.html" class="accountBtnGroup btn"> SIGN UP </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<nav class="navbar navbar-default" id="navbar" role="navigation">
+					<div class="navbar-header">
+						 
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+						</button> 
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="rentCarByModel.html">Find Car</a>
+							</li>
+							<li>
+								<a href="#">Find Location</a>
+							</li>
+						
+						</ul>
+					</div>
+				</nav>
+				<ul class="breadcrumb" id="breadcrumb">
+					<li>
+						<a href="../index.html" class="active">Home</a>
+					</li>
+					<li class="active">Find Location</li>
+				</ul>
+				<div class="row">
+					<div class="col-md-12" >
+						<div id="map"></div>
+						<div class="alert alert-dismissible alert-success">
+						  <strong>Please</strong> hover over your desired location.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Pll40orqr8NI4RpnTxKlFE6GNXB1cK0"></script>
+	<script type="text/javascript">
+		var map;
+		var x = document.getElementById('errorBox');
+		getLocation();
+		function initMap(x,y) {
+			var myLatLng = {lat: x, lng: y};
+			var latLng = x,y;
+			map = new google.maps.Map(document.getElementById('map'), {
+			  center: myLatLng,
+			  zoom: 12
+			});
+			var markers = [
+				['Your Location','dd',latLng],
+				['Economy, Corolla', 47.5682313, -52.7609158],
+				['Economy, Kia Rio', 47.5717449, -52.7759548],
+				['Compact, Nissan Versa Note', 47.5778123, -52.7744238],
+				['Standard, Volkswagen Jetta', 47.6119316, -52.7564523],
+				['Full Size, Nissan Altima', 47.5721388, -52.7469785],
+				['Full Size, Nissan Altima', 47.5729182, -52.740646],
+				['Compact, Nissan Versa Note', 47.5717126, -52.7372374],
+				['Economy, Kia Rio', 47.5692171, -52.6782055],
+				['Full Size, Nissan Altima', 47.6032398, -52.7215296],
+				['Compact, Nissan Versa Note', 47.6035255, -52.6797746]
+			];
+			for( i = 0; i < markers.length; i++ ) {
+				var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+				var marker = new google.maps.Marker({
+					position: position,
+					map: map,
+					title: markers[i][0],
+					icon: '../images/mapIcons/car.png',
+				});
+				marker.addListener('click', function() {
+				  alert("You Selected: "+marker.title);
+				});
+			}
+			
+			 
+		}
+
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition, showError);
+			} else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+
+		function showPosition(position) {
+		initMap(position.coords.latitude, position.coords.longitude);
+		}
+
+		function showError(error) {
+			switch(error.code) {
+				case error.PERMISSION_DENIED:
+					x.innerHTML = "User denied the request for Geolocation."
+					break;
+				case error.POSITION_UNAVAILABLE:
+					x.innerHTML = "Location information is unavailable."
+					break;
+				case error.TIMEOUT:
+					x.innerHTML = "The request to get user location timed out."
+					break;
+				case error.UNKNOWN_ERROR:
+					x.innerHTML = "An unknown error occurred."
+					break;
+			}
+		}
+    </script>
+	<script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/scripts.js"></script>
+</body>
