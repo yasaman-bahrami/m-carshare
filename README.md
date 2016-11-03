@@ -14,3 +14,7 @@ Chrome has an issue with sharing location of the user due to deprecation of Goog
 insecure channels like our garfield server which is up on http instead of https. <br/>
 Below is a URL that describes the issue with Chrome in details: <br/>
 https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins
+
+<br/>
+To run the application please issue the following command: <br/>
+<b>node</b> app.js
