@@ -49,6 +49,7 @@
 	margin: 0px;
 }
 #mainTop{
+	color: white;
 	background: #ffffff url("../images/mainBG.jpg") no-repeat right top;
 	border-radius: 0px; 
     min-height: 500px;
@@ -76,4 +77,7 @@
 }
 #reportDamageBTN{
 	margin-top: 10px;
+}
+.btn:hover{
+	color: orange;
 }

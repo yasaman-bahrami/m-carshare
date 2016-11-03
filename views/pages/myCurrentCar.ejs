@@ -7,9 +7,9 @@
 
     <title>M-Car Share</title>
 	
-	<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+	<link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
   </head>
   <body>
@@ -54,7 +54,7 @@
 										</form>
 									</div>
 								</div>
-								<a href="pages/signUp.html" class="accountBtnGroup btn"> SIGN UP </a>
+								<a href="signUp" class="accountBtnGroup btn"> SIGN UP </a>
 							</div>
 						</div>
 					</div>
@@ -69,82 +69,66 @@
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li>
-								<a href="pages/rentCarByModel.html">Find Car</a>
+								<a href="rentCarByModel">Find Car</a>
 							</li>
 							<li>
-								<a href="pages/rentCarByLocation.html">Find Location</a>
+								<a href="rentCarByLocation">Find Location</a>
 							</li>
 							<li>
-								<a href="pages/myCurrentCar.html">My Car</a>
+								<a href="#">My Car</a>
 							</li>
 						
 						</ul>
 					</div>
 				</nav>
 				<ul class="breadcrumb" id="breadcrumb">
-					<li class="active">Home</li>
+					<li>
+						<a href="/index" class="active">Home</a>
+					</li>
+					<li class="active">My Car</li>
 				</ul>
-				<div class="jumbotron" id="mainTop">
-					<h2>
-						M-CAR SHARE
-					</h2>
-					<p>
-						SAVE MONEY, ENJOY YOUR TIME
-					</p>
-					<p>
-						<a class="btn btn-primary btn-large" href="#">Learn more</a>
-					</p>
-				</div>
-				<div class="row">
-					<div class="col-md-4 textAlignCenter">
-						<h4>TRAVEL EASY</h4>
-						<div class="col-md-4">
-								<i class="fa fa-car fa-5x"></i>
-						</div>
-						<div class="col-md-8 textAlignLeft">
-							<p>
-								Make your travel easy by renting the best car.
-							</p>
-							<p>
-								<a class="btn" href="#">View details »</a>
-							</p>
-						</div>
-					</div>
-					<div class="col-md-4 textAlignCenter">
-						<h4>SAVE YOUR MONEY</h4>
-						<div class="col-md-4">
-								<i class="fa fa-money fa-5x" aria-hidden="true"></i>
-						</div>
-						<div class="col-md-8 textAlignLeft">
-							<p>
-								Why calling a cab? Rent a car with a reasonable price. Sign Up and see special discount.
-							</p>
-							<p>
-								<a class="btn" href="#">View details »</a>
-							</p>
+				<div class="row" id="contentPanel">
+					<div class="col-md-3"></div>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-6">
+										<img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg" />
+									</div>
+									<div class="col-md-6">
+										 
+										<button type="button" class="btn btn-success">
+											I dropped off the car
+										</button> 
+										<button id="reportDamageBTN" type="button" class="btn btn-warning">
+											I want ro report damages
+										</button>
+									</div>
+								</div>
+								<dl>
+									<dt>
+										You rented Kia Rio
+									</dt>
+									<dd>
+										MANUAL
+									</dd>
+									<dt>
+										Per Kilometers
+									</dt>
+									<dd>
+										CAD 1.00
+									</dd>
+								</dl>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-4 textAlignCenter">
-						<h4>SAVE YOUR TIME</h4>
-						<div class="col-md-4">
-								<i class="fa fa-clock-o fa-5x" aria-hidden="true"></i>
-						</div>
-						<div class="col-md-8 textAlignLeft">
-							<p>
-								Getting freedom and flexibility to drive whenever you have time. Set your own schedule.
-							</p>
-							<p>
-								<a class="btn" href="#">View details »</a>
-							</p>
-						</div>
-					</div>
+					<div class="col-md-3"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
+	<script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/scripts.js"></script>
 </body>
-</html>

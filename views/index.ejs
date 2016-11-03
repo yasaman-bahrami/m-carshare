@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>M-Car Share</title>
+
+    <link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container-fluid" id="container">
+    <div class="row">
+        <div class="col-md-12" id="main">
+            <div class="page-header" id="header">
+                <div class="row">
+                    <div class="col-md-8" >
+                        <h3>
+                            M-CAR <small>Share Company</small>
+                        </h3>
+                    </div>
+                    <div class="col-md-4 textAlignRight">
+                        <div class="btn-group">
+                            <button class="btn accountBtnGroup">
+                                LOGIN
+                            </button>
+                            <button data-toggle="dropdown" class="btn dropdown-toggle accountBtnGroup">
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <div class="well" id="dropDownLogin">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">
+                                                Email Address
+                                            </label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" />
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="exampleInputPassword1">
+                                                Password
+                                            </label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1" />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <a href="pages/signUp" class="accountBtnGroup btn"> SIGN UP </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-default" id="navbar" role="navigation">
+                <div class="navbar-header">
+
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="pages/rentCarByModel">Find Car</a>
+                        </li>
+                        <li>
+                            <a href="pages/rentCarByLocation">Find Location</a>
+                        </li>
+                        <li>
+                            <a href="pages/myCurrentCar">My Car</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+            <ul class="breadcrumb" id="breadcrumb">
+                <li class="active">Home</li>
+            </ul>
+            <div class="jumbotron" id="mainTop">
+                <h2>
+                    M-CAR SHARE
+                </h2>
+                <p>
+                    SAVE MONEY, ENJOY YOUR TIME
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 textAlignCenter">
+                    <h4>TRAVEL EASY</h4>
+                    <div class="col-md-4">
+                        <i class="fa fa-car fa-5x"></i>
+                    </div>
+                    <div class="col-md-8 textAlignLeft">
+                        <p>
+                            Make your travel easy by renting the best car.
+                        </p>
+                        <p>
+                            <a class="btn" href="#">View details »</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 textAlignCenter">
+                    <h4>SAVE YOUR MONEY</h4>
+                    <div class="col-md-4">
+                        <i class="fa fa-money fa-5x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-8 textAlignLeft">
+                        <p>
+                            Why calling a cab? Rent a car with a reasonable price. Sign Up and see special discount.
+                        </p>
+                        <p>
+                            <a class="btn" href="#">View details »</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 textAlignCenter">
+                    <h4>SAVE YOUR TIME</h4>
+                    <div class="col-md-4">
+                        <i class="fa fa-clock-o fa-5x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-8 textAlignLeft">
+                        <p>
+                            Getting freedom and flexibility to drive whenever you have time. Set your own schedule.
+                        </p>
+                        <p>
+                            <a class="btn" href="#">View details »</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
+</html>

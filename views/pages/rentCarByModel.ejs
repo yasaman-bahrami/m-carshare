@@ -7,14 +7,13 @@
 
     <title>M-Car Share</title>
 	
-	<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+	<link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
   </head>
   <body>
-
-    <div class="container-fluid" id="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12" id="main">
 				<div class="page-header" id="header">
@@ -54,7 +53,7 @@
 										</form>
 									</div>
 								</div>
-								<a href="pages/signUp.html" class="accountBtnGroup btn"> SIGN UP </a>
+								<a href="signUp" class="accountBtnGroup btn"> SIGN UP </a>
 							</div>
 						</div>
 					</div>
@@ -69,10 +68,13 @@
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li>
-								<a href="pages/rentCarByModel.html">Find Car</a>
+								<a href="#">Find Car</a>
 							</li>
 							<li>
-								<a href="#">Find Location</a>
+								<a href="rentCarByLocation">Find Location</a>
+							</li>
+							<li>
+								<a href="myCurrentCar">My Car</a>
 							</li>
 						
 						</ul>
@@ -80,21 +82,84 @@
 				</nav>
 				<ul class="breadcrumb" id="breadcrumb">
 					<li>
-						<a href="#" class="active">Home</a>
+						<a href="/index" class="active">Home</a>
 					</li>
+					<li class="active">Find Car</li>
 				</ul>
-				<div class="jumbotron" id="mainTop">
-					<h2>
-						M-CAR SHARE
-					</h2>
-					<p>
-						Share, pray, love
-					</p>
-					<p>
-						<a class="btn btn-primary btn-large" href="#">Learn more</a>
-					</p>
+				<div class="row">
+					<div class="col-md-4">
+						<h3>
+							Luxury
+						</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="img-circle carModelImg" />
+						<dl>
+							<dt>
+								BMW
+							</dt>
+							<dd>
+								AUTOMATIC
+							</dd>
+							<dt>
+								Per Kilometers
+							</dt>
+							<dd>
+								CAD 1.00
+							</dd>
+						</dl> 
+						<button type="button" class="btn btn-primary">
+							Select
+						</button>
+					</div>
+					<div class="col-md-4">
+						<h3>
+							Economy
+						</h3><img alt="Economy Car" src="../images/cars/economy.png" class="img-circle carModelImg" />
+						<dl>
+							<dt>
+								Kia Rio
+							</dt>
+							<dd>
+								MANUAL
+							</dd>
+							<dt>
+								Per Kilometers
+							</dt>
+							<dd>
+								CAD 1.00
+							</dd>
+						</dl> 
+						<button type="button" class="btn btn-primary">
+							Select
+						</button>
+					</div>
+					<div class="col-md-4">
+						<h3>
+							Convertible
+						</h3>
+						<img alt="Convertible Car" src="../images/cars/convertible.jpg" class="img-circle carModelImg" />
+						<dl>
+							<dt>
+								Description lists
+							</dt>
+							<dd>
+								AUTOMATIC
+							</dd>
+							<dt>
+								Per Kilometers
+							</dt>
+							<dd>
+								CAD 1.00
+							</dd>
+						</dl> 
+						<button type="button" class="btn btn-primary">
+							Select
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/scripts.js"></script>
 </body>
+</html>
