@@ -17,7 +17,11 @@ var userSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
     driverLicenseNo: String,
-    isActivated: Boolean
+    isEmailVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationCode: String
 });
 
 // methods ======================
