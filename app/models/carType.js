@@ -3,12 +3,14 @@
  */
 // app/models/models.js
 var mongoose = require('mongoose');
+var Car = require('./car');
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(mongoose.connection);
 
 // define the schema for our carType model
 var carTypeSchema = mongoose.Schema({
-    type: String
+    type: String,
+    cars : [{ type: mongoose.Schema.Types.Number, ref: 'car' }]
 });
 
 

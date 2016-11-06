@@ -91,20 +91,6 @@
 						<h3>
 							Luxury
 						</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="img-circle carModelImg" />
-						<dl>
-							<dt>
-								BMW
-							</dt>
-							<dd>
-								AUTOMATIC
-							</dd>
-							<dt>
-								Per Kilometers
-							</dt>
-							<dd>
-								CAD 1.00
-							</dd>
-						</dl> 
 						<button type="button" class="btn btn-primary">
 							Select
 						</button>
@@ -113,20 +99,6 @@
 						<h3>
 							Economy
 						</h3><img alt="Economy Car" src="../images/cars/economy.png" class="img-circle carModelImg" />
-						<dl>
-							<dt>
-								Kia Rio
-							</dt>
-							<dd>
-								MANUAL
-							</dd>
-							<dt>
-								Per Kilometers
-							</dt>
-							<dd>
-								CAD 1.00
-							</dd>
-						</dl> 
 						<button type="button" class="btn btn-primary">
 							Select
 						</button>
@@ -136,20 +108,6 @@
 							Convertible
 						</h3>
 						<img alt="Convertible Car" src="../images/cars/convertible.jpg" class="img-circle carModelImg" />
-						<dl>
-							<dt>
-								Description lists
-							</dt>
-							<dd>
-								AUTOMATIC
-							</dd>
-							<dt>
-								Per Kilometers
-							</dt>
-							<dd>
-								CAD 1.00
-							</dd>
-						</dl> 
 						<button type="button" class="btn btn-primary">
 							Select
 						</button>
@@ -161,5 +119,39 @@
 	<script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/scripts.js"></script>
+  	<script>
+		$('#submit').click(function() {
+			alert('clicked')
+			console.log($('#guid').val())
+			console.log($('#page_title').val())
+			console.log($('#page-content').val())
+			$.ajax({
+				url: "/send_save",
+				type: "POST",
+				dataType: "json",
+				data: {
+					id: $('#guid').val(),
+					title: $('#page_title').val(),
+					content: $('#page-content').val()
+				},
+				contentType: "application/json",
+				cache: false,
+				timeout: 5000,
+				complete: function() {
+					//called when complete
+					console.log('process complete');
+				},
+
+				success: function(data) {
+					console.log(data);
+					console.log('process sucess');
+				},
+
+				error: function() {
+					console.log('process error');
+				},
+			});
+		})
+	</script>
 </body>
 </html>

@@ -111,25 +111,36 @@
 			  center: myLatLng,
 			  zoom: 12
 			});
-			var markers = [
-				['Your Location','dd',latLng],
-				['Economy, Corolla', 47.5682313, -52.7609158],
-				['Economy, Kia Rio', 47.5717449, -52.7759548],
-				['Compact, Nissan Versa Note', 47.5778123, -52.7744238],
-				['Standard, Volkswagen Jetta', 47.6119316, -52.7564523],
-				['Full Size, Nissan Altima', 47.5721388, -52.7469785],
-				['Full Size, Nissan Altima', 47.5729182, -52.740646],
-				['Compact, Nissan Versa Note', 47.5717126, -52.7372374],
-				['Economy, Kia Rio', 47.5692171, -52.6782055],
-				['Full Size, Nissan Altima', 47.6032398, -52.7215296],
-				['Compact, Nissan Versa Note', 47.6035255, -52.6797746]
-			];
+			var markers = [];
+			<% for(var i in cars) {
+				if(cars[i].isAvailable){
+			%>
+				markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].longitude%>", "<%= cars[i].latitude%>"]);
+			<% }
+			} %>
+			console.log(markers);
+//			var markers = [
+//				['Your Location','dd',latLng],
+//				['Economy, Corolla', 47.5682313, -52.7609158],
+//				['Economy, Kia Rio', 47.5717449, -52.7759548],
+//				['Compact, Nissan Versa Note', 47.5778123, -52.7744238],
+//				['Standard, Volkswagen Jetta', 47.6119316, -52.7564523],
+//				['Full Size, Nissan Altima', 47.5721388, -52.7469785],
+//				['Full Size, Nissan Altima', 47.5729182, -52.740646],
+//				['Compact, Nissan Versa Note', 47.5717126, -52.7372374],
+//				['Economy, Kia Rio', 47.5692171, -52.6782055],
+//				['Full Size, Nissan Altima', 47.6032398, -52.7215296],
+//				['Compact, Nissan Versa Note', 47.6035255, -52.6797746]
+//			];
 			for( i = 0; i < markers.length; i++ ) {
-				var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+				console.log(markers[i][1]);
+				console.log(markers[i][2]);
+				var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
+				console.log(position);
 				var marker = new google.maps.Marker({
 					position: position,
 					map: map,
-					title: markers[i][0],
+					title: markers[i][0] + "\nPrice Per Kilometer: " + markers[i][1]+"$",
 					icon: '../images/mapIcons/car.png',
 				});
 				marker.addListener('click', function() {

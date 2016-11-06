@@ -3,6 +3,7 @@
  */
 // app/models/models.js
 var mongoose = require('mongoose');
+var carType = require('./carType');
 var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(mongoose.connection);
 // define the schema for our car model
@@ -13,18 +14,20 @@ var carSchema = mongoose.Schema({
     price: String,
     latitude: String,
     longitude: String,
+    locationName: String,
     isAvailable: Boolean,
-    carTypes : [{ type: mongoose.Schema.Types.Number, ref: 'carType' }]
+    carType : { type: mongoose.Schema.Types.Number, ref: 'carType' }
 });
 
 
 // methods ======================
 carSchema.methods.find = function(){
-    mongoose.find({}, function (err, docs) {
-        JSON.stringify(docs);
+    mongoose.find({}, function(err, docs) {
+        if (err) throw err;
+        // object of all the users
+        console.log(docs);
         return docs;
-//        res.json(docs);
-    })
+    });
 },
 carSchema.set('toJSON', {
     getters: true,

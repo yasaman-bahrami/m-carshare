@@ -16,7 +16,8 @@ var userSchema = mongoose.Schema({
     role: String,
     firstName: String,
     lastName: String,
-    driverLicenseNo: String
+    driverLicenseNo: String,
+    isActivated: Boolean
 });
 
 // methods ======================

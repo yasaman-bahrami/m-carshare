@@ -76,45 +76,52 @@ require('./app/routes.js')(app, passport, mongoose);
  **/
 http.createServer(app).listen(app.get('port'), function () {
     //These are only for testing purposes, these should finally go into appropriate controllers inside routes.js
+    // var User = require('./app/models/user');
+    // var user = new User();
+    //
+    // user.email = "ybs572@mun.ca";
+    // user.password = "123456";
+    // user.address = "87a Portugal Cove Dr.";
+    // user.phoneNo = "7093254625";
+    // user.role = "user";
+    // user.firstName = "Yasaman";
+    // user.lastName = "Bahrami";
+    // user.driverLicenseNo = "S8703300027";
+    // user.save(function (err){
+    //     if (err) {
+    //         console.log("This is the initialization message: " + JSON.stringify(err));
+    //     }
+    // });
     var Car = require('./app/models/car');
     var CarType = require('./app/models/carType');
-    var User = require('./app/models/user');
-    var user = new User();
-
-    user.email = "ybs572@mun.ca";
-    user.password = "123456";
-    user.address = "87a Portugal Cove Dr.";
-    user.phoneNo = "7093254625";
-    user.role = "user";
-    user.firstName = "Yasaman";
-    user.lastName = "Bahrami";
-    user.driverLicenseNo = "S8703300027";
-    user.save(function (err){
-        if (err) {
-            console.log("This is the initialization message: " + JSON.stringify(err));
-        }
-    });
     var carType = new CarType();
-    carType.type = "Luxury";
-    carType.save(function (err) {
+    carType.type = "Standard";
+    carType.save(function (err, savedCarType) {
         if (err) {
             console.log("This is the initialization message: " + JSON.stringify(err));
-        }
-        var car = new Car();
-        car.carPlateNo = "1002232_"+carType._id;
-        car.carName = "Toyota";
-        car.carModel = "Corolla";
-        car.price = "6000";
-        car.latitude = "37.5";
-        car.longitude = "40.5";
-        car.isAvailable = true;
+        } else {
+            var car = new Car();
+            car.carPlateNo = "1002232_" + carType._id;
+            car.carName = "Ford";
+            car.carModel = "Focus";
+            car.price = "5";
+            car.latitude = "36.5";
+            car.longitude = "40.0";
+            car.isAvailable = true;
 
-        car.carTypes.push(carType._id) ;
-        car.save(function (err) {
-            if (err) {
-                console.log("This is the initialization message: " + JSON.stringify(err));
-            }
-        });
+            car.carType = carType._id;
+            car.save(function (err, savedCar) {
+                if (err) {
+                    console.log("This is the initialization message: " + JSON.stringify(err));
+                } else {
+                    savedCarType.cars.push(savedCar._id);
+                    savedCarType.update(function (err) {
+
+                    });
+                }
+            });
+        }
+
     });
     console.log('Express server listening on port ' + app.get('port'));
 });
