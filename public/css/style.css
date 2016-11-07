@@ -81,3 +81,20 @@
 .btn:hover{
 	color: orange;
 }
+/*<-------------------------------- Admin  Pages -------------------------------------->*/
+/*<-------------------------------- Add Car Page -------------------------------------->*/
+#locationSuggestions{
+	display: none;
+	background-color: #ECF0F1;
+	border-radius: 5px;
+}
+#locationSuggestions div{
+	padding: 10px;
+}
+#locationSuggestions div:hover{
+	background-color: grey;
+	color: white;
+}
+.suggested-lat, .suggested-lng{
+	display: none;
+}

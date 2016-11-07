@@ -10,20 +10,6 @@ function addCar() {
 	cell3.innerHTML = "NEW CELL2";
 	cell4.innerHTML = "NEW CELL2";
 }
-$("#addCar").click( function () { 
-	var carTypeModal = $( "#carTypeModal" ).val();
-	var carNameModal = $( "#carNameModal" ).val();
-	var carNumberModal = $( "#carNumberModal" ).val();
-	var seconds = new Date().getTime();
-	var row = $("<tr id='"+seconds+"'>");
-	row.append($('<td ><input type="checkbox"></td>'))
-		.append($("<td>"+carNumberModal+"</td>"))
-		.append($("<td>"+carTypeModal+"</td>"))
-		.append($("<td>"+carNameModal+"</td>"));
-	 
-		$("#carTable tbody").append(row);
-		$('#modal-container-393651').modal('hide');
-});
 function deleteRow()  {
         var table = document.getElementById("carTable").tBodies[0];
         var rowCount = table.rows.length;

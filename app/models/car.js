@@ -23,10 +23,24 @@ var carSchema = mongoose.Schema({
 // methods ======================
 carSchema.methods.find = function(){
     mongoose.find({}, function(err, docs) {
-        if (err) throw err;
-        // object of all the users
-        console.log(docs);
-        return docs;
+        if (err) {console.log("error occured in find for car!")}
+        else{
+            // object of all the users
+            console.log(docs);
+            return docs;
+        }
+
+    });
+},
+carSchema.methods.findById = function(id){
+    mongoose.findOne({_id: id}, function(err, car) {
+        if (err) {console.log("error occured in find for car!")}
+        else{
+            // object of all the users
+            console.log(car);
+            return car;
+        }
+
     });
 },
 carSchema.set('toJSON', {

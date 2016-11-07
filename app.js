@@ -92,37 +92,7 @@ http.createServer(app).listen(app.get('port'), function () {
     //         console.log("This is the initialization message: " + JSON.stringify(err));
     //     }
     // });
-    var Car = require('./app/models/car');
-    var CarType = require('./app/models/carType');
-    var carType = new CarType();
-    carType.type = "Standard";
-    carType.save(function (err, savedCarType) {
-        if (err) {
-            console.log("This is the initialization message: " + JSON.stringify(err));
-        } else {
-            var car = new Car();
-            car.carPlateNo = "1002232_" + carType._id;
-            car.carName = "Ford";
-            car.carModel = "Focus";
-            car.price = "5";
-            car.latitude = "36.5";
-            car.longitude = "40.0";
-            car.isAvailable = true;
 
-            car.carType = carType._id;
-            car.save(function (err, savedCar) {
-                if (err) {
-                    console.log("This is the initialization message: " + JSON.stringify(err));
-                } else {
-                    savedCarType.cars.push(savedCar._id);
-                    savedCarType.update(function (err) {
-
-                    });
-                }
-            });
-        }
-
-    });
     console.log('Express server listening on port ' + app.get('port'));
 });
 

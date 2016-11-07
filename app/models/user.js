@@ -21,7 +21,8 @@ var userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verificationCode: String
+    verificationCode: String,
+    isActivated: Boolean
 });
 
 // methods ======================

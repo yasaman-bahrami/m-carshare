@@ -112,10 +112,11 @@
 			  zoom: 12
 			});
 			var markers = [];
+
 			<% for(var i in cars) {
 				if(cars[i].isAvailable){
 			%>
-				markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].longitude%>", "<%= cars[i].latitude%>"]);
+				markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].latitude%>", "<%= cars[i].longitude%>"]);
 			<% }
 			} %>
 			console.log(markers);
