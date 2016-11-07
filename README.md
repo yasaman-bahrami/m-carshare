@@ -16,5 +16,9 @@ Below is a URL that describes the issue with Chrome in details: <br/>
 https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins
 
 <br/>
+To run the mongodb database please issue the following command in the root folder of the checked out code:
+<br/>
+<b> mongod </b> -smallfiles -nojournal -dbpath {PROJECT_ROOT}\db\
+<br/>
 To run the application please issue the following command: <br/>
 <b>node</b> app.js

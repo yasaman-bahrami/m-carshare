@@ -62,8 +62,16 @@ module.exports = function (app, passport, mongoose) {
         });
     });
     app.get('/pages/rentCarByLocation', function (req, res) {
-        res.render('pages/rentCarByLocation.ejs', {
-            user: req.user // get the user out of session and pass to template
+        var Car = require('../app/models/car')
+        Car.find().populate('carType').exec(function(err, cars) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('pages/rentCarByLocation.ejs', {
+                    user: req.user, // get the user out of session and pass to template
+                    cars: cars // get the cars out of session and pass to template
+                });
+            }
         });
     });
 
