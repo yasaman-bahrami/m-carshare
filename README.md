@@ -20,5 +20,8 @@ To run the mongodb database please issue the following command in the root folde
 <br/>
 <b> mongod </b> -smallfiles -nojournal -dbpath {PROJECT_ROOT}\db\
 <br/>
-To run the application please issue the following command: <br/>
+To run the application please issue the following commands: <br/>
+<br/>
+<b>npm</b> install
+<br/>
 <b>node</b> app.js
