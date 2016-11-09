@@ -3,7 +3,7 @@ GIT Repository of Group 2
 
 Team members:
 Yasaman Bahrami Samani, Student #: 201392321
-Bina Javed, Student #: 
+Bina Javed, Student #: 201467974
 Ghassem Alaee Khangha, Student # 
 
 Project Description: 
