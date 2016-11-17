@@ -32,33 +32,69 @@ function sendMail(mailOptions, email, callback) {
 // app/routes.js
 module.exports = function (app, passport, mongoose) {
     app.get('/', function (req, res) {
+        console.log("This is the user:");
+        console.log(req.user);
+        console.log("DONE**********");
         res.render('index.ejs', {
             user: req.user // get the user out of session and pass to template
         });
     });
-    app.get('/index', function (req, res) {
-        res.render('index.ejs', {
-            user: req.user // get the user out of session and pass to template
+    app.get('/login', function (req, res) {
+        res.render('login.ejs', {
+            user: req.user, // get the user out of session and pass to template
+            message: req.flash('loginMessage')
         });
     });
-    app.get('/admin', function (req, res) {
-        res.render('admin.ejs', {
-            user: req.user // get the user out of session and pass to template
-        });
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/index');
     });
-    app.get('/pages/rentCarByModel', function (req, res) {
-        res.render('pages/rentCarByModel.ejs', {
-            user: req.user // get the user out of session and pass to template
-        });
+    // process the login form
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/index', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
+    // =====================================
+    // PROFILE SECTION =========================
+    // =====================================
+    // we will want this protected so you have to be logged in to visit
+    // we will use route middleware to verify this (the isLoggedIn function)
+    app.get('/index', isLoggedIn, function(req, res) {
+        console.log(req.user.role+"!!!!!!!!");
+        if(req.user.role=='admin'){
+            res.redirect('/pages/addCar');
+
+        }else if(req.user.role=='client'){
+            res.render('index.ejs', {
+                user : req.user // get the user out of session and pass to template
+            });
+
+        }
     });
+
     app.get('/pages/signUp', function (req, res) {
         res.render('pages/signUp.ejs', {
             user: req.user // get the user out of session and pass to template
         });
     });
-    app.get('/pages/myCurrentCar', function (req, res) {
+    app.get('/pages/myCurrentCar', isLoggedIn, function (req, res) {
         res.render('pages/myCurrentCar.ejs', {
             user: req.user // get the user out of session and pass to template
+        });
+    });
+    app.get('/pages/rentCarByModel', function (req, res) {
+        var Car = require('../app/models/car');
+        var CarType = require('../app/models/carType');
+        Car.find().populate('carType').where('carType').equals(7).exec(function(err, cars) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('pages/rentCarByModel.ejs', {
+                    user: req.user, // get the user out of session and pass to template
+                    cars: cars // get the cars out of session and pass to template
+                });
+            }
         });
     });
     app.get('/pages/rentCarByLocation', function (req, res) {
@@ -119,7 +155,7 @@ module.exports = function (app, passport, mongoose) {
     app.post('/pages/register', function (req, res) {
         var user = new User(req.body);
         user.verificationCode = crypto.createHash('sha1').update(user.email).digest('hex');
-        console.log(user);
+        user.password = user.generateHash(req.body.password)
         user.save(function (err) {
             if (err) {
                 switch (err.code) {
@@ -153,12 +189,6 @@ module.exports = function (app, passport, mongoose) {
                 });
                 res.json({success: "A confirmation mail has been sent to " + user.email});
             }
-        });
-    });
-    //admin controller functions
-    app.get('/admin', function (req, res) {
-        res.render('admin.ejs', {
-            user: req.user // get the user out of session and pass to template
         });
     });
     app.get('/pages/addCar', function (req, res) {
@@ -218,3 +248,13 @@ module.exports = function (app, passport, mongoose) {
         }
     });
 };
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/login');
+}

@@ -13,7 +13,10 @@ var userSchema = mongoose.Schema({
     password: String,
     address: String,
     phoneNo: String,
-    role: String,
+    role: {
+        type: String,
+        default: "client"
+    },
     firstName: String,
     lastName: String,
     driverLicenseNo: String,
@@ -33,10 +36,17 @@ userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 userSchema.methods.find = function(){
     mongoose.find({}, function (err, docs) {
+        JSON.stringify(docs);
+        return docs;
+//        res.json(docs);
+    })
+};
+userSchema.methods.findOne = function(email){
+    mongoose.findOne({'email' :  email}, function (err, docs) {
         JSON.stringify(docs);
         return docs;
 //        res.json(docs);
