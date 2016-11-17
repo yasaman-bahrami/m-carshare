@@ -1,7 +1,7 @@
 # m-carshare
 GIT Repository of Group 2
 
-Team members:
+Team members: <br/>
 Yasaman Bahrami Samani, Student #: 201392321 <br/>
 Bina Javed, Student #: 201467974 <br/>
 Ghassem Alaee Khangha, Student # <br/>
