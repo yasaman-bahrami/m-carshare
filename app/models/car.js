@@ -16,7 +16,8 @@ var carSchema = mongoose.Schema({
     longitude: String,
     locationName: String,
     isAvailable: Boolean,
-    carType : { type: mongoose.Schema.Types.Number, ref: 'carType' }
+    carType : { type: mongoose.Schema.Types.Number, ref: 'carType' },
+    bills : [{ type: mongoose.Schema.Types.Number, ref: 'bill' }]
 });
 
 

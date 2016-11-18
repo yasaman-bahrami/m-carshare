@@ -19,28 +19,36 @@
 					<div class="col-md-4">
 						<h3>
 							Luxury
-						</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="img-circle carModelImg" />
-						<button type="button" class="btn btn-primary">
+						</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="carModelImg" />
+						<button type="button" class="btn btn-primary" onclick="showCars(10)">
 							Select
 						</button>
 					</div>
 					<div class="col-md-4">
-						<h3>
-							Economy
-						</h3><img alt="Economy Car" src="../images/cars/economy.png" class="img-circle carModelImg" />
-						<button type="button" class="btn btn-primary">
-							Select
-						</button>
+						<div class="panel-group" id="panel-7">
+							<div class="panel panel-default">
+								<div class="panel-heading" id="carType-heading-7">
+									<h3>
+										Economy
+									</h3><img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg" />
+									<a  type="button" onclick="showCars(7)" class="panel-title collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
+								</div>
+								<div id="panel-element-7" class="panel-collapse collapse"></div>
+
+
+							</div>
+						</div>
 					</div>
 					<div class="col-md-4">
 						<h3>
 							Convertible
 						</h3>
-						<img alt="Convertible Car" src="../images/cars/convertible.jpg" class="img-circle carModelImg" />
-						<button type="button" class="btn btn-primary">
+						<img alt="Convertible Car" src="../images/cars/convertible.jpg" class="carModelImg" />
+						<button type="button" class="btn btn-primary" onclick="showCars(11)">
 							Select
 						</button>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -49,34 +57,51 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/scripts.js"></script>
   	<script>
-		$('#submit').click(function() {
+		function showCars(carType) {
 			$.ajax({
-				url: "/send_save",
+				url: "/pages/rentCarByModel",
 				type: "POST",
 				dataType: "json",
 				data: {
-					id: $('#guid').val(),
-					title: $('#page_title').val(),
-					content: $('#page-content').val()
+					carType: carType+"",
 				},
-				contentType: "application/json",
-				cache: false,
-				timeout: 5000,
 				complete: function() {
 					//called when complete
 					console.log('process complete');
 				},
 
-				success: function(data) {
-					console.log(data);
-					console.log('process sucess');
+				success: function(response) {
+					if(response.success){
+						var cars = response.data;
+						for (var i in cars){
+							console.log(cars[i].carModel);
+							var tr = '<div class="panel-body">'
+							tr += '<table class="table table-striped table-hover table-bordered" id="carTable">'
+							tr += '<thead><tr> <th>Name </th> <th>Location </th> <th>Price/km </th> <th>Reserve</th></tr> </thead>'
+							tr += '<tbody id="addedCarsBody">'
+							tr += "<tr id='car-row-"+cars[i]._id+"'>";
+							tr += "<td>" + cars[i].carName + ", "+ cars[i].carModel+ "</td>";
+							tr += "<td>" + cars[i].locationName + "</td>";
+							tr += "<td>" + cars[i].price + "</td>";
+							tr += '<td><button type="button" class="btn btn-primary" onclick="showCars(11)">Select </button></td>';
+							tr += "</tr>";
+							tr += '</tbody>'
+							tr += '</table>'
+							tr += '</div>';
+
+							$("#panel-element-7").append(tr);
+						}
+
+					}else{
+						console.error("An error occured calling this ajax function.");
+					}
 				},
 
-				error: function() {
-					console.log('process error');
+				error: function(err) {
+					console.log(err);
 				},
 			});
-		})
+		}
 	</script>
 </body>
 </html>

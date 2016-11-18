@@ -24,7 +24,8 @@ var userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verificationCode: String
+    verificationCode: String,
+    bills : [{ type: mongoose.Schema.Types.Number, ref: 'bill' }]
 });
 
 // methods ======================

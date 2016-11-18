@@ -83,18 +83,25 @@ module.exports = function (app, passport, mongoose) {
             user: req.user // get the user out of session and pass to template
         });
     });
-    app.get('/pages/rentCarByModel', function (req, res) {
-        var Car = require('../app/models/car');
-        var CarType = require('../app/models/carType');
-        Car.find().populate('carType').where('carType').equals(7).exec(function(err, cars) {
+    app.post('/pages/rentCarByModel', function (req, res) {
+        var Car = require('../app/models/car')
+        var type = Number(req.body.carType)
+        Car.find().populate('carType').where('carType').equals(type).exec(function(err, cars) {
             if (err) {
                 console.log(err);
             } else {
-                res.render('pages/rentCarByModel.ejs', {
-                    user: req.user, // get the user out of session and pass to template
-                    cars: cars // get the cars out of session and pass to template
-                });
+                // res.render('pages/rentCarByModel.ejs', {
+                //     user: req.user, // get the user out of session and pass to template
+                //     cars: cars // get the cars out of session and pass to template
+                // });
+                var response = {'success': true, data: cars};
+                res.send(response);
             }
+        });
+    });
+    app.get('/pages/rentCarByModel', function (req, res) {
+        res.render('pages/rentCarByModel.ejs', {
+            user: req.user, // get the user out of session and pass to template
         });
     });
     app.get('/pages/rentCarByLocation', function (req, res) {

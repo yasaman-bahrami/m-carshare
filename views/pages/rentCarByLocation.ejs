@@ -25,6 +25,50 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="modal-container-450827" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									×
+								</button>
+								<h4 class="modal-title" id="myModalLabel">
+									Reserve Car
+								</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" action="/login" method="post">
+									<fieldset>
+										<div class="form-group">
+											<label for="inputPickUpDate" class="col-lg-4 control-label">Pick Up Date</label>
+											<div class="col-lg-8">
+												<input type="date" class="form-control" id="inputPickUpDate" name="inputPickUpDate" placeholder="Pick Up Date" required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputDropOffDate" class="col-lg-4 control-label" required>Drop Off Date</label>
+											<div class="col-lg-8">
+												<input type="date" class="form-control" id="inputDropOffDate" name="inputDropOffDate" placeholder="Drop Off Date">
+											</div>
+										</div>
+									</fieldset>
+								</form>
+							</div>
+							<div class="modal-footer">
+
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+								<button type="button" class="btn btn-primary">
+									Save changes
+								</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</div>
@@ -74,7 +118,9 @@
 					icon: '../images/mapIcons/car.png',
 				});
 				marker.addListener('click', function() {
-				  alert("You Selected: "+marker.title);
+					$('#modal-container-450827').modal({
+						show: 'true'
+					});
 				});
 			}
 			
