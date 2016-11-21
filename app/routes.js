@@ -1,6 +1,8 @@
 var Car = require('../app/models/car');
 var CarType = require('../app/models/carType');
 var User = require('../app/models/user');
+var Bill = require('../app/models/bill');
+
 // Email verification
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
@@ -255,6 +257,48 @@ module.exports = function (app, passport, mongoose) {
         }
     });
 };
+
+// book Car
+app.post('/pages/bookCar', function (req, res) {
+
+    var bill = new Bill();
+    bill.pickUpDate = req.body.pickUpDate;
+    bill.dropOffDate = req.body.dropOffDate;
+    bill.distanceTravelled = req.body.distanceTravelled;
+    bill.car = Number(req.body.carId);
+    bill.user = Number(req.user._id);
+    console.log(bill._id);
+    bill.save(function (err, savedBill) {
+        if (err) {
+            console.log("This is the initialization message: " + JSON.stringify(err));
+            res.send("ERROR");
+            return;
+        } else {
+            User.findOne({_id: req.user._id}, function (err, user) {
+                if (err) {
+                    console.log("User not found");
+                } else {
+                    user.bills.push(bill._id);
+                    user.save(function (err, savedUser) {
+                    });
+                }
+            });
+            Car.findOne({_id: req.body.carId}, function (err, car) {
+                if (err) {
+                    console.log("Car not found");
+                } else {
+                    car.isAvailable = false;
+                    car.bills.push(bill._id);
+                    car.save(function (err, savedCar) {
+                    });
+                }
+
+            });
+            res.send("SUCCESS");
+        }
+    });
+
+});
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
 
