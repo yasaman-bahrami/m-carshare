@@ -52,11 +52,62 @@
 				</div>
 			</div>
 		</div>
+		<!-- Bill Dialog start-->
+		<div class="modal fade" id="modal-container-bill" role="dialog"
+			 aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							×
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							Invoice
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" id="bookCarForm">
+							<div class="form-group">
+								<label>
+									Pickup Date
+								</label>
+								<input type="date" required class="form-control" name="pickUpDate" id="pickUpDate"/>
+							</div>
+							<div class="form-group">
+								<label>
+									DropOff Date
+								</label>
+								<input type="date" required class="form-control" name="dropOffDate" id="dropOffDate"/>
+							</div>
+							<div class="form-group">
+								<label>
+									Distance To Travell
+								</label>
+								<input type="number" required class="form-control" id="distanceTravelled" name="distanceTravelled"/>
+							</div>
+							<input type="hidden" name="carId" id="carId"/>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+								<input type="submit" class="btn btn-primary" id="addCar" value="Save changes"/>
+							</div>
+						</form>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		<!-- Bill Dialog end -->
 	</div>
 	<script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/scripts.js"></script>
-  	<script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/scripts.js"></script>
+	<script src="../js/bookCar.js"></script>
+	<script>
 		function showCars(carType) {
 			$.ajax({
 				url: "/pages/rentCarByModel",
@@ -83,13 +134,14 @@
 							tr += "<td>" + cars[i].carName + ", "+ cars[i].carModel+ "</td>";
 							tr += "<td>" + cars[i].locationName + "</td>";
 							tr += "<td>" + cars[i].price + "</td>";
-							tr += '<td><button type="button" class="btn btn-primary" onclick="showCars(11)">Select </button></td>';
+							tr += '<td><a href="#modal-container-bill" onClick="setCarId('+cars[i]._id+')" role="button" class="btn btn-primary" data-toggle="modal">Select</a></td>';
 							tr += "</tr>";
 							tr += '</tbody>'
 							tr += '</table>'
 							tr += '</div>';
 
 							$("#panel-element-7").append(tr);
+							$("#panel-element-7").show();
 						}
 
 					}else{
@@ -103,5 +155,5 @@
 			});
 		}
 	</script>
-</body>
+  </body>
 </html>
