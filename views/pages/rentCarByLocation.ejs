@@ -1,98 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <% include ../partials/head %>
-      <title>M-Car Share Rent Car By Location</title>
-  </head>
-  <body>
+<head>
+	<% include ../partials/head %>
+	<title>M-Car Share Rent Car By Location</title>
+</head>
+<body>
 
-    <div class="container-fluid" id="container">
-		<div class="row">
-			<div class="col-md-12" id="main">
-                <% include ../partials/header %>
-                <ul class="breadcrumb" id="breadcrumb">
-                    <li>
-                        <a href="/index" class="active">Home</a>
-                    </li>
-                    <li class="active">Find Location</li>
-                </ul>
-				<div class="row">
-					<div class="col-md-12" >
-						<div id="map"></div>
-						<div class="alert alert-dismissible alert-success">
-						  <strong>Please</strong> hover over your desired location to see the car model.
-						  <div id="errorBox"></div>
-						</div>
+<div class="container-fluid" id="container">
+	<div class="row">
+		<div class="col-md-12" id="main">
+			<% include ../partials/header %>
+			<ul class="breadcrumb" id="breadcrumb">
+				<li>
+					<a href="/index" class="active">Home</a>
+				</li>
+				<li class="active">Find Location</li>
+			</ul>
+			<div class="row">
+				<div class="col-md-12" >
+					<div id="map"></div>
+					<div class="alert alert-dismissible alert-success">
+						<strong>Please</strong> hover over your desired location to see the car model.
+						<div id="errorBox"></div>
 					</div>
-				</div>
-				<div class="modal fade" id="modal-container-450827" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-									×
-								</button>
-								<h4 class="modal-title" id="myModalLabel">
-									Reserve Car
-								</h4>
-							</div>
-							<div class="modal-body">
-								<form class="form-horizontal" role="form" action="/login" method="post">
-									<fieldset>
-										<div class="form-group">
-											<label for="inputPickUpDate" class="col-lg-4 control-label">Pick Up Date</label>
-											<div class="col-lg-8">
-												<input type="date" class="form-control" id="inputPickUpDate" name="inputPickUpDate" placeholder="Pick Up Date" required>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="inputDropOffDate" class="col-lg-4 control-label" required>Drop Off Date</label>
-											<div class="col-lg-8">
-												<input type="date" class="form-control" id="inputDropOffDate" name="inputDropOffDate" placeholder="Drop Off Date">
-											</div>
-										</div>
-									</fieldset>
-								</form>
-							</div>
-							<div class="modal-footer">
-
-								<button type="button" class="btn btn-default" data-dismiss="modal">
-									Close
-								</button>
-								<button type="button" class="btn btn-primary">
-									Save changes
-								</button>
-							</div>
-						</div>
-
-					</div>
-
 				</div>
 			</div>
+			<!-- Bill Dialog start-->
+			<% include invoice.ejs %>
+			<!-- Bill Dialog end -->
 		</div>
 	</div>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Pll40orqr8NI4RpnTxKlFE6GNXB1cK0"></script>
-	<script type="text/javascript">
-		var map;
-		var x = document.getElementById('errorBox');
-		getLocation();
-		function initMap(x,y) {
-			var myLatLng = {lat: x, lng: y};
-			var latLng = x,y;
-			map = new google.maps.Map(document.getElementById('map'), {
-			  center: myLatLng,
-			  zoom: 12
-			});
-			var markers = [];
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Pll40orqr8NI4RpnTxKlFE6GNXB1cK0"></script>
+<script type="text/javascript">
+	var map;
+	var x = document.getElementById('errorBox');
+	getLocation();
+	function initMap(x,y) {
+		var myLatLng = {lat: x, lng: y};
+		var latLng = x,y;
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: myLatLng,
+			zoom: 12
+		});
+		var markers = [];
 
-			<% for(var i in cars) {
-				if(cars[i].isAvailable){
-			%>
-				markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].latitude%>", "<%= cars[i].longitude%>"]);
-			<% }
-			} %>
-			console.log(markers);
+		<% for(var i in cars) {
+		if(cars[i].isAvailable){
+		%>
+		markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].latitude%>", "<%= cars[i].longitude%>","<%= cars[i]._id%>"]);
+		<% }
+		} %>
+		console.log(markers);
 //			var markers = [
 //				['Your Location','dd',latLng],
 //				['Economy, Corolla', 47.5682313, -52.7609158],
@@ -106,57 +65,62 @@
 //				['Full Size, Nissan Altima', 47.6032398, -52.7215296],
 //				['Compact, Nissan Versa Note', 47.6035255, -52.6797746]
 //			];
-			for( i = 0; i < markers.length; i++ ) {
-				console.log(markers[i][1]);
-				console.log(markers[i][2]);
-				var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
-				console.log(position);
-				var marker = new google.maps.Marker({
-					position: position,
-					map: map,
-					title: markers[i][0] + "\nPrice Per Kilometer: " + markers[i][1]+"$",
-					icon: '../images/mapIcons/car.png',
+
+		for( i = 0; i < markers.length; i++ ) {
+			//console.log(markers[i][1]);
+			console.log(markers[i][4]);
+			var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
+
+			var marker = new google.maps.Marker({
+				position: position,
+				map: map,
+				title: markers[i][0] + "\nPrice Per Kilometer: " + markers[i][1]+"$",
+				icon: '../images/mapIcons/car.png',
+				id:markers[i][4]
+			});
+
+			marker.addListener('click', function() {
+				setCarId(this.id);
+				$('#modal-container-bill').modal({
+					show: 'true'
 				});
-				marker.addListener('click', function() {
-					$('#modal-container-450827').modal({
-						show: 'true'
-					});
-				});
-			}
-			
-			 
+			});
 		}
 
-		function getLocation() {
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(showPosition, showError);
-			} else {
-				x.innerHTML = "Geolocation is not supported by this browser.";
-			}
-		}
 
-		function showPosition(position) {
+	}
+
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError);
+		} else {
+			x.innerHTML = "Geolocation is not supported by this browser.";
+		}
+	}
+
+	function showPosition(position) {
 		initMap(position.coords.latitude, position.coords.longitude);
-		}
+	}
 
-		function showError(error) {
-			switch(error.code) {
-				case error.PERMISSION_DENIED:
-					x.innerHTML = "User denied the request for Geolocation."
-					break;
-				case error.POSITION_UNAVAILABLE:
-					x.innerHTML = "Location information is unavailable."
-					break;
-				case error.TIMEOUT:
-					x.innerHTML = "The request to get user location timed out."
-					break;
-				case error.UNKNOWN_ERROR:
-					x.innerHTML = "An unknown error occurred."
-					break;
-			}
+	function showError(error) {
+		switch(error.code) {
+			case error.PERMISSION_DENIED:
+				x.innerHTML = "User denied the request for Geolocation."
+				break;
+			case error.POSITION_UNAVAILABLE:
+				x.innerHTML = "Location information is unavailable."
+				break;
+			case error.TIMEOUT:
+				x.innerHTML = "The request to get user location timed out."
+				break;
+			case error.UNKNOWN_ERROR:
+				x.innerHTML = "An unknown error occurred."
+				break;
 		}
-    </script>
-	<script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/scripts.js"></script>
+	}
+</script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/scripts.js"></script>
+<script src="../js/bookCar.js"></script>
 </body>
