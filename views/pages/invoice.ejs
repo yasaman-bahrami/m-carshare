@@ -1,0 +1,48 @@
+<div class="modal fade" id="modal-container-bill" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Invoice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="bookCarForm">
+                    <div class="form-group">
+                        <label>
+                            Pickup Date
+                        </label>
+                        <input type="date" required class="form-control" name="pickUpDate" id="pickUpDate"/>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            DropOff Date
+                        </label>
+                        <input type="date" required class="form-control" name="dropOffDate" id="dropOffDate"/>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Distance To Travell
+                        </label>
+                        <input type="number" required class="form-control" id="distanceTravelled" name="distanceTravelled"/>
+                    </div>
+                    <input type="hidden" name="carId" id="carId"/>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <input type="submit" class="btn btn-primary" id="addCar" value="Save changes"/>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
