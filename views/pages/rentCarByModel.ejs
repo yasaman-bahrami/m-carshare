@@ -34,19 +34,21 @@
 								<a  type="button" onclick="showCars(7)" class="panel-title collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
 							</div>
 							<div id="panel-element-7" class="panel-collapse collapse"></div>
-
-
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<h3>
-						Convertible
-					</h3>
-					<img alt="Convertible Car" src="../images/cars/convertible.jpg" class="carModelImg" />
-					<button type="button" class="btn btn-primary" onclick="showCars(11)">
-						Select
-					</button>
+					<div class="panel-group" id="panel-7">
+						<div class="panel panel-default">
+							<div class="panel-heading" id="carType-heading-7">
+								<h3>
+									Convertible
+								</h3><img alt="Convertible Car" src="../images/cars/convertible.jpg" class="carModelImg" />
+								<a  type="button" onclick="showCars(11)" class="panel-title collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
+							</div>
+							<div id="panel-element-7" class="panel-collapse collapse"></div>
+						</div>
+					</div>
 				</div>
 
 			</div>
@@ -92,7 +94,7 @@
 						tr += '</tbody>'
 						tr += '</table>'
 						tr += '</div>';
-
+						$("#panel-element-7").empty();
 						$("#panel-element-7").append(tr);
 						$("#panel-element-7").show();
 					}
