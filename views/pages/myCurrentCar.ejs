@@ -17,42 +17,111 @@
 					<li class="active">My Car</li>
 				</ul>
 				<div class="row" id="contentPanel">
-					<div class="col-md-3"></div>
-					<div class="col-md-6">
+					<% for(var i in bills) {%>
+					<div class="col-md-4">
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-6">
-										<img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg" />
-									</div>
-									<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-6">
+											<i class="fa fa-car fa-4x" aria-hidden="true"></i>
+											<dl id="car-row-<%=bills[i]._id%>">
+												<dt><%= bills[i].car.carName +", "+ bills[i].car.carModel %></dt>
+												<dd><%= "$"+bills[i].car.price + " CAD per kilometer"%></dd>
+												<dd><%= "Drop Off Date: "+bills[i].dropOffDate%></dd>
+											</dl>
+										</div>
+										<div class="col-md-6">
+											<button type="button" class="btn btn-success" id="<%= bills[i]._id %>">
+												Drop Off
+											</button>
+											<a id="modal-1" href="#modal-container-1" role="button" class="btn btn-warning reportDamageBTN" data-toggle="modal">Report Damage</a>
+											<div class="modal fade" id="modal-container-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
 
-										<button type="button" class="btn btn-success">
-											I dropped off the car
-										</button>
-										<button id="reportDamageBTN" type="button" class="btn btn-warning" onclick="myFunction()">
-											I want ro report damages
-										</button>
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																×
+															</button>
+															<h4 class="modal-title" id="myModalLabel">
+																Modal title
+															</h4>
+														</div>
+														<div class="modal-body">
+															<form role="form" id="bookCarForm">
+																<div class="form-group">
+																	<label for="select" class=" control-label">Damage Type</label>
+																	<select class="form-control" id="damageType" name="damageType">
+																		<option value="6">Rear-end collisions</option>
+																		<option value="7">Side-impact collisions</option>
+																		<option value="8">Sideswipe collisions</option>
+																		<option value="9">Vehicle Rollover</option>
+																		<option value="10">Head-on collisions</option>
+																		<option value="11">Single car accidents</option>
+																		<option value="11">Multi-vehicle pile-ups</option>
+																		<option value="11">personal injury</option>
+																	</select>
+																</div>
+																<div class="form-group">
+																	<label>
+																		Description
+																	</label>
+																	<input type="description" required class="form-control" name="description" id="description"/>
+																</div>
+																<input type="hidden" name="carId" id="carId"/>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default" data-dismiss="modal">
+																		Close
+																	</button>
+																	<input type="submit" class="btn btn-primary" id="addCar" value="Save changes"/>
+																</div>
+															</form>
+														</div>
+													</div>
+
+												</div>
+
+											</div>
+										</div>
 									</div>
-								</div>
-								<dl>
-									<dt>
-										You rented Kia Rio
-									</dt>
-									<dd>
-										MANUAL
-									</dd>
-									<dt>
-										Per Kilometers
-									</dt>
-									<dd>
-										CAD 1.00
-									</dd>
-								</dl>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3"></div>
+					<%}%>
+				</div>
+
+				<div class="col-md-12 col-sm-12" id="mainBottom">
+					<% if(billsHistory.length>0) {%>
+					<% console.log(billsHistory.size)%>
+					<table class="table table-striped table-hover table-bordered" id="carTable">
+						<thead>
+						<tr class="success">
+							<th>
+								Name
+							</th>
+							<th>
+								Pick Up Time
+							</th>
+							<th>
+								Drop Off Time
+							</th>
+							<th>
+								Amount
+							</th>
+						</tr>
+						</thead>
+						<tbody id="addedCarsBody">
+						<% for(var i in billsHistory) {%>
+						<tr id="car-row-<%=billsHistory[i]._id%>">
+							<td><%= billsHistory[i].car.carName +", "+ billsHistory[i].car.carModel %></td>
+							<td><%= billsHistory[i].pickUpDate %></td>
+							<td><%= billsHistory[i].dropOffDate %></td>
+							<td><%="$"+ billsHistory[i].amount %></td>
+						</tr>
+						<%}%>
+						</tbody>
+					</table>
+					<%}%>
 				</div>
 			</div>
 		</div>
@@ -61,8 +130,5 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/scripts.js"></script>
 	<script>
-		function myFunction() {
-			document.getElementById("demo").innerHTML = "Hello World";
-		}
 	</script>
 </body>

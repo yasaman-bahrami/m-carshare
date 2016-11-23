@@ -46,7 +46,7 @@
 	margin-bottom: 0px;
 }
 #breadcrumb{
-	margin: 0px;
+	margin: 0 0 10px 0;
 }
 #mainTop{
 	color: white;
@@ -64,6 +64,11 @@
 
 /*<-------------------------------- Sign Up Page -------------------------------------->*/
 #signUpForm{
+	 margin-top: 20px;
+ }
+
+/*<-------------------------------- Login Page -------------------------------------->*/
+#loginForm{
 	margin-top: 20px;
 }
 /*<-------------------------------- Rent Car By Location -------------------------------------->*/
@@ -75,7 +80,7 @@
 #contentPanel{
 	margin-top: 10px;
 }
-#reportDamageBTN{
+.reportDamageBTN{
 	margin-top: 10px;
 }
 .btn:hover{
@@ -97,4 +102,14 @@
 }
 .suggested-lat, .suggested-lng{
 	display: none;
+}
+/*<-------------------------------- Rent Car By Model -------------------------------------->*/
+.panel-default>.panel-heading {
+	background: none;
+}
+.absolute-panel{
+	position: absolute;
+	z-index: 1;
+	background: white;
+	border: 1px solid grey;
 }

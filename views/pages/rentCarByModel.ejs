@@ -11,29 +11,21 @@
 			<% include ../partials/header %>
 			<ul class="breadcrumb" id="breadcrumb">
 				<li>
-					<a href="/index" class="active">Home</a>
+					<a href="/" class="active">Home</a>
 				</li>
 				<li class="active">Find Car</li>
 			</ul>
 			<div class="row">
 				<div class="col-md-4">
-					<h3>
-						Luxury
-					</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="carModelImg" />
-					<button type="button" class="btn btn-primary" onclick="showCars(10)">
-						Select
-					</button>
-				</div>
-				<div class="col-md-4">
-					<div class="panel-group" id="panel-7">
+					<div class="panel-group" id="panel-10">
 						<div class="panel panel-default">
-							<div class="panel-heading" id="carType-heading-7">
+							<div class="panel-heading" id="carType-heading-10">
 								<h3>
-									Economy
-								</h3><img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg" />
-								<a  type="button" onclick="showCars(7)" class="panel-title collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
+									Luxury
+								</h3><img alt="Luxury Car" src="../images/cars/luxury.png" class="carModelImg" />
+								<a  type="button" onclick="showCars(10)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-10" href="#panel-element-10">Select</a>
 							</div>
-							<div id="panel-element-7" class="panel-collapse collapse"></div>
+							<div id="panel-element-10" class="panel-collapse collapse absolute-panel"></div>
 						</div>
 					</div>
 				</div>
@@ -42,11 +34,65 @@
 						<div class="panel panel-default">
 							<div class="panel-heading" id="carType-heading-7">
 								<h3>
+									Economy
+								</h3><img alt="Economy Car" src="../images/cars/economy.jpg" class="carModelImg" />
+								<a  type="button" onclick="showCars(7)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
+							</div>
+							<div id="panel-element-7" class="panel-collapse collapse absolute-panel"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel-group" id="panel-11">
+						<div class="panel panel-default">
+							<div class="panel-heading" id="carType-heading-11">
+								<h3>
 									Convertible
 								</h3><img alt="Convertible Car" src="../images/cars/convertible.jpg" class="carModelImg" />
-								<a  type="button" onclick="showCars(11)" class="panel-title collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-7" href="#panel-element-7">Select</a>
+								<a  type="button" onclick="showCars(11)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-11" href="#panel-element-11">Select</a>
 							</div>
-							<div id="panel-element-7" class="panel-collapse collapse"></div>
+							<div id="panel-element-11" class="panel-collapse collapse absolute-panel"></div>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-md-4">
+					<div class="panel-group" id="panel-6">
+						<div class="panel panel-default">
+							<div class="panel-heading" id="carType-heading-6">
+								<h3>
+									Standard
+								</h3><img alt="Standard Car" src="../images/cars/standard.jpg" class="carModelImg" />
+								<a  type="button" onclick="showCars(6)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-6" href="#panel-element-6">Select</a>
+							</div>
+							<div id="panel-element-6" class="panel-collapse collapse absolute-panel"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel-group" id="panel-8">
+						<div class="panel panel-default">
+							<div class="panel-heading" id="carType-heading-8">
+								<h3>
+									Compact
+								</h3><img alt="Compact Car" src="../images/cars/Compact.png" class="carModelImg" />
+								<a  type="button" onclick="showCars(8)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-8" href="#panel-element-8">Select</a>
+							</div>
+							<div id="panel-element-8" class="panel-collapse collapse absolute-panel"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel-group" id="panel-9">
+						<div class="panel panel-default">
+							<div class="panel-heading" id="carType-heading-9">
+								<h3>
+									Full Size
+								</h3><img alt="Full Size Car" src="../images/cars/fullsize.jpg" class="carModelImg" />
+								<a  type="button" onclick="showCars(9)" class="collapsed btn btn-primary" data-toggle="collapse" data-parent="#panel-9" href="#panel-element-9">Select</a>
+							</div>
+							<div id="panel-element-9" class="panel-collapse collapse absolute-panel"></div>
 						</div>
 					</div>
 				</div>
@@ -79,25 +125,32 @@
 			success: function(response) {
 				if(response.success){
 					var cars = response.data;
-					for (var i in cars){
-						console.log(cars[i].carModel);
-						var tr = '<div class="panel-body">'
-						tr += '<table class="table table-striped table-hover table-bordered" id="carTable">'
-						tr += '<thead><tr> <th>Name </th> <th>Location </th> <th>Price/km </th> <th>Reserve</th></tr> </thead>'
-						tr += '<tbody id="addedCarsBody">'
-						tr += "<tr id='car-row-"+cars[i]._id+"'>";
-						tr += "<td>" + cars[i].carName + ", "+ cars[i].carModel+ "</td>";
-						tr += "<td>" + cars[i].locationName + "</td>";
-						tr += "<td>" + cars[i].price + "</td>";
-						tr += '<td><a href="#modal-container-bill" onClick="setCarId('+cars[i]._id+')" role="button" class="btn btn-primary" data-toggle="modal">Select</a></td>';
-						tr += "</tr>";
-						tr += '</tbody>'
-						tr += '</table>'
+					var tr;
+					if(cars.length>0){
+							tr = '<div class="panel-body">'
+							tr += '<table class="table table-striped table-hover table-bordered" id="carTable">'
+							tr += '<thead><tr> <th>Name </th> <th>Location </th> <th>Price/km </th> <th>Reserve</th></tr> </thead>'
+							tr += '<tbody id="addedCarsBody">';
+							for (var i in cars) {
+								tr += "<tr id='car-row-" + cars[i]._id + "'>";
+								tr += "<td>" + cars[i].carName + ", " + cars[i].carModel + "</td>";
+								tr += "<td>" + cars[i].locationName + "</td>";
+								tr += "<td>" + cars[i].price + "</td>";
+								tr += '<td><a onClick="setCarId(' + cars[i]._id + ')" role="button" class="btn btn-primary" data-toggle="modal">Reserve</a></td>';
+								tr += "</tr>";
+							}
+							tr += '</tbody>'
+							tr += '</table>'
+							tr += '</div>';
+					}else{
+						tr = '<div class="panel-body">'
+						tr += 'Unfortunately, this car type is not available at the moment. Try again later. '
 						tr += '</div>';
-						$("#panel-element-7").empty();
-						$("#panel-element-7").append(tr);
-						$("#panel-element-7").show();
 					}
+					$("#panel-element-"+carType).empty();
+					$("#panel-element-"+carType).append(tr);
+					$("#panel-element-"+carType).show();
+
 
 				}else{
 					console.error("An error occured calling this ajax function.");

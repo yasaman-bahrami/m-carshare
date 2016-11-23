@@ -80,9 +80,26 @@ module.exports = function (app, passport, mongoose) {
         });
     });
     app.get('/pages/myCurrentCar', isLoggedIn, function (req, res) {
-        res.render('pages/myCurrentCar.ejs', {
-            user: req.user // get the user out of session and pass to template
+        Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(false).exec(function (err, bills) {
+            if (err) {
+                console.log(err);
+            } else {
+                Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(true).exec(function (err, billsHistory) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.render('pages/myCurrentCar.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            billsHistory: billsHistory, // get the billsHistory out of session and pass to template
+                            bills:bills
+                        });
+                    }
+                });
+            }
         });
+
+        console.log("my current car is:");
+        console.log(Bill);
     });
     app.post('/pages/rentCarByModel', function (req, res) {
         var Car = require('../app/models/car')
@@ -91,10 +108,8 @@ module.exports = function (app, passport, mongoose) {
             if (err) {
                 console.log(err);
             } else {
-                // res.render('pages/rentCarByModel.ejs', {
-                //     user: req.user, // get the user out of session and pass to template
-                //     cars: cars // get the cars out of session and pass to template
-                // });
+                console.log("this are cars----------------");
+                console.log(cars);
                 var response = {'success': true, data: cars};
                 res.send(response);
             }
@@ -199,16 +214,18 @@ module.exports = function (app, passport, mongoose) {
             }
         });
     });
-    app.get('/pages/addCar', function (req, res) {
+    app.get('/pages/addCar',isLoggedIn, function (req, res) {
         Car.find().populate('carType').exec(function (err, cars) {
             res.render('pages/addCar.ejs', {
                 user: req.user, // get the user out of session and pass to template
                 cars: cars
             });
         });
+        console.log("this is cars");
+        console.log(Car);
 
     });
-    app.post('/pages/addCar', function (req, res) {
+    app.post('/pages/addCar',isLoggedIn, function (req, res) {
         CarType.find().where('_id').equals(req.body.carType).exec(function (err, carType) {
             if (err) {
                 console.logx("Error occured while fetching carType");
@@ -255,8 +272,17 @@ module.exports = function (app, passport, mongoose) {
             });
         }
     });
+    app.post('/isUserValid', function(req, res){
+        if(req.isAuthenticated()){
+            var response = {'success': true, data: ''};
+            res.send(response);
+        }else{
+            var response = {'success': false, data: ''};
+            res.send(response);
+        }
+    });
 // book Car
-    app.post('/pages/bookCar', function (req, res) {
+    app.post('/pages/bookCar',isLoggedIn, function (req, res) {
 
         var bill = new Bill();
         bill.pickUpDate = req.body.pickUpDate;
