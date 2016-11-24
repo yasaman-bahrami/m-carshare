@@ -80,12 +80,13 @@
 			});
 
 			marker.addListener('click', function() {
+				var carId = this.id;
 				$.ajax({
 					type: 'post',
 					url: '/isUserValid',
 					success: function (result) {
 						if (result.success) {
-							setCarId(this.id);
+							setCarId(carId);
 							$('#modal-container-bill').modal({
 								show: 'true'
 							});
