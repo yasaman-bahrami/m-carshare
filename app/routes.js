@@ -205,7 +205,7 @@ module.exports = function (app, passport, mongoose) {
                 }
             }
             else {
-                var verificationLink = "http://" + req.headers.host + ":" + app.get('port') + "/pages/verifyMe?vc=" + user.verificationCode;
+                var verificationLink = "http://" + req.headers.host + "/pages/verifyMe?vc=" + user.verificationCode;
                 var mailOptions = emailTemplate.welcome_email(user.firstName, verificationLink);
                 sendMail(mailOptions, user.email, function (err) {
                     console.log("Email sent");
