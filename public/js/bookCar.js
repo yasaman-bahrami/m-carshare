@@ -34,7 +34,6 @@ function setCarId(carId) {
         url: '/isUserValid',
         success: function (result) {
             if (result.success) {
-                setCarId(this.id);
                 $('#modal-container-bill').modal({
                     show: 'true'
                 });
