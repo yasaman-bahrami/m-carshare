@@ -25,3 +25,16 @@ To run the application please issue the following commands: <br/>
 <b>npm</b> install
 <br/>
 <b>node</b> app.js
+
+<b>Features of M-Car Share system:</b>
+1) Guest users can look for the available cars by location and model.
+2) Guest users can signup in the system and confirm their account via verification email.
+3) Registered members can book cars by preferred model and location.
+4) When member books a car, bill is saved in the system internally.
+5) User can see booked cars in the MyCar tab.
+6) When member returns a car, bill is generated to the user.
+7) Member can report the damages in the system.
+8) Member will get discount if there is no damage history.
+9) Admin can add and delete cars in the system.
+10) Admin can check the reported damages.
+11) Admin can track cars.
