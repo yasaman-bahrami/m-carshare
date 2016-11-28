@@ -115,7 +115,8 @@ module.exports = function (app, passport, mongoose) {
                     } else {
                         var damage = new Damage();
                         damage.description = req.body.description;
-                        damage.amount = req.body.amount;
+
+                        damage.amount = "0";
                         damage.type = req.body.damageType;
                         damage.bill = req.body.billno;
                         damage.save(function (err, savedDamage) {
@@ -311,12 +312,30 @@ module.exports = function (app, passport, mongoose) {
     app.get('/pages/carDamageReports', function (req, res) {
         var Damage = require('../app/models/damage')
         Damage.find().populate('bill').populate('user').exec(function (err, damages) {
-            console.log(damages);
+            //console.log(damages);
             res.render('pages/carDamageReports.ejs', {
                 user: req.user, // get the user out of session and pass to template
                 damages: damages,
             });
         });
+
+    });
+    app.post('/pages/carDamageReports', function (req, res) {
+        var Damage = require('../app/models/damage')
+        Damage.update({"amount": req.body.dmgAmount}).where('_id').equals(req.body.damageNo).exec(function (err, changedDamages) {
+            if (err) {
+                console.logx("Error occured while fetching damageID");
+                res.send("ERROR IN find damageID");
+            } else {
+                Damage.find().populate('bill').populate('user').exec(function (err, damages) {
+                    res.render('pages/carDamageReports.ejs', {
+                        user: req.user, // get the user out of session and pass to template
+                        damages: damages,
+                    });
+                });
+            }
+        });
+
 
     });
     app.post('/pages/deleteCars', function (req, res) {
