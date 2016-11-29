@@ -27,7 +27,6 @@ carSchema.methods.find = function(){
         if (err) {console.log("error occured in find for car!")}
         else{
             // object of all the users
-            console.log(docs);
             return docs;
         }
 
@@ -38,7 +37,6 @@ carSchema.methods.findById = function(id){
         if (err) {console.log("error occured in find for car!")}
         else{
             // object of all the users
-            console.log(car);
             return car;
         }
 

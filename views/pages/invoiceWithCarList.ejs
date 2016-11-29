@@ -1,0 +1,107 @@
+<div class="modal fade" id="modal-container-bill-car" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Invoice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#carListTab" data-toggle="tab" aria-expanded="true">Cars</a>
+                        </li>
+                        <li>
+                            <a  data-toggle="tab"  aria-expanded="false">Invoice</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="carListTab">
+                            <table class="table table-striped table-hover table-bordered" id="carTable">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Location
+                                    </th>
+                                    <th>
+                                        Price/km
+                                    </th>
+                                    <th>
+                                        Reserve
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="addedCarsBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="bookCarTab">
+                            <form role="form" id="bookCarForm">
+                                <div class="form-group">
+                                    <label>
+                                        Pickup Date
+                                    </label>
+                                    <input type="date" required class="form-control" name="pickUpDate" id="pickUpDate"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        DropOff Date
+                                    </label>
+                                    <input type="date" required class="form-control" name="dropOffDate" id="dropOffDate"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Distance To Travell
+                                    </label>
+                                    <input type="number" required class="form-control" id="distanceTravelled" name="distanceTravelled"/>
+                                </div>
+                                <input type="hidden" name="carId" id="carId"/>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <input type="submit" class="btn btn-primary" id="addCar" value="Save changes"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    function populateCars(cars){
+        $("#addedCarsBody").empty();
+        for(var i in cars) {
+            var row =
+            '<tr><td>'+ cars[i].carType.type+' </td>'+
+            '<td>'+ cars[i].carName +', '+ cars[i].carModel +'</td>'+
+            '<td>'+ cars[i].locationName +'</td>'+
+            '<td>'+ cars[i].price +'</td>'+
+            '<td><a href="#bookCarTab" onClick="handleSetCarIdByLocation(' + cars[i]._id + ')" role="button" class="btn btn-primary" data-toggle="tab">Reserve</a></td>';
+            row += '</tr>';
+            $("#addedCarsBody").append(row);
+        }
+    }
+    function handleSetCarIdByLocation(carId) {
+        setCarId(carId);
+        $('.nav-tabs > .active').next('li').find('a').trigger('click');
+    }
+</script>

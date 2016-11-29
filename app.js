@@ -22,7 +22,6 @@ if (process && process.env && process.env.VCAP_SERVICES) {
         if (svcName.match(/^mongo.*/)) {
             mongoUrl = vcapServices[svcName][0].credentials.uri;
             mongoUrl = mongoUrl || vcapServices[svcName][0].credentials.url;
-            console.log("This is mongoUrl: " + mongoUrl);
             mongoose.connect(mongoUrl);
         }
     }
