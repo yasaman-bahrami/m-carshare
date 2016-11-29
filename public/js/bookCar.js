@@ -26,6 +26,7 @@ $('#bookCarForm').on('submit', function (e) {
                     $(this).val("");
                 });
                 $("#car-row-"+carId).closest('table').remove();
+	            location.reload();
             }
         },
         error: function () {

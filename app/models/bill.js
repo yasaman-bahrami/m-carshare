@@ -9,7 +9,10 @@ autoIncrement.initialize(mongoose.connection);
 // define the schema for our bill model
 var billSchema = mongoose.Schema({
     pickUpDate: String,
+    pickUpTime: String,
     dropOffDate: String,
+    dropOffTime: String,
+    discount: String,
     isFinished: {
         type: Boolean,
         default: false

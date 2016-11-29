@@ -32,7 +32,7 @@
                                     </dl>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-success" id="<%= bills[i]._id %>">
+                                    <button type="button" onclick="dropOffCar('<%= bills[i]._id %>', '<%= bills[i].car._id %>');"class="btn btn-success" id="<%= bills[i]._id %>">
                                         Drop Off
                                     </button>
                                     <a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button"
@@ -101,40 +101,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg"/>
-                                </div>
-                                <div class="col-md-6">
 
-                                    <button type="button" class="btn btn-success"
-                                            onclick="dropOffCar('<%= bills[i]._id %>', '<%= bills[i].car._id %>');">
-                                        I dropped off the car
-                                    </button>
-                                    <button id="reportDamageBTN" type="button" class="btn btn-warning"
-                                            onclick="myFunction()">
-                                        I want ro report damages
-                                    </button>
-                                </div>
-                            </div>
-                            <dl>
-                                <dt>
-                                    You rented <%= bills[i].car.carModel %> <%= bills[i].car.carName %>
-                                </dt>
-                                <dd>
-                                    MANUAL
-                                </dd>
-                                <dt>
-                                    Per Kilometers
-                                </dt>
-                                <dd>
-                                    CAD <%= bills[i].car.price %>
-                                </dd>
-                            </dl>
                         </div>
                     </div>
-                    <% } %>
                 </div>
+                <% } %>
                 <div class="col-md-12 col-sm-12" id="mainBottom">
                     <h3>
                         Car History

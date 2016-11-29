@@ -34,7 +34,7 @@
                                 Customer ID
                             </th>
                             <th>
-                                Car ID
+                                Car Plate Number
                             </th>
                         </tr>
                         </thead>
@@ -47,7 +47,7 @@
                             <td><%= damages[i].type %></td>
                             <td><%= damages[i].bill._id %></td>
                             <td><%= damages[i].bill.user %></td>
-                            <td><%= damages[i].bill.car %></td>
+                            <td><%= damages[i].bill.car.carPlateNo %></td>
                         </tr>
                         <% } %>
                         </tbody>

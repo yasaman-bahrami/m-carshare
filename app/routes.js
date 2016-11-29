@@ -152,7 +152,7 @@ module.exports = function (app, passport, mongoose) {
     app.post('/pages/rentCarByModel', function (req, res) {
         var Car = require('../app/models/car')
         var type = Number(req.body.carType)
-        Car.find().populate('carType').where('carType').equals(type).exec(function(err, cars) {
+        Car.find().populate('carType').where('carType').equals(type).where('isAvailable').equals(true).exec(function(err, cars) {
             if (err) {
                 console.log(err);
             } else {
@@ -418,7 +418,8 @@ module.exports = function (app, passport, mongoose) {
 				res.send("ERROR");
 				return;
 			} else {
-
+				console.log("this is current bill");
+				console.log(bill);
 				bill.latitude = data.location.latitude;
 				bill.longitude = data.location.longitude;
 				bill.distanceTravelled = data.distanceTravelled;
