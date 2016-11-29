@@ -34,9 +34,6 @@ function sendMail(mailOptions, email, callback) {
 // app/routes.js
 module.exports = function (app, passport, mongoose) {
     app.get('/', function (req, res) {
-        console.log("This is the user:");
-        console.log(req.user);
-        console.log("DONE**********");
         res.render('index.ejs', {
             user: req.user // get the user out of session and pass to template
         });
@@ -62,9 +59,8 @@ module.exports = function (app, passport, mongoose) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/index', isLoggedIn, function (req, res) {
-        console.log(req.user.role + "!!!!!!!!");
-        if (req.user.role == 'admin') {
+    app.get('/index', isLoggedIn, function(req, res) {
+        if(req.user.role=='admin'){
             res.redirect('/pages/addCar');
 
         } else if (req.user.role == 'client') {
@@ -143,7 +139,18 @@ module.exports = function (app, passport, mongoose) {
                 });
             }
         });
-
+    });
+    app.post('/payBill', function (req, res) {
+        var Bill = require('../app/models/bill')
+        var billId = Number(req.body.billId)
+        Bill.update({"isPayed":true}).where('_id').equals(billId).exec(function(err, bills) {
+            if (err) {
+                console.log(err);
+            } else {
+                var response = {'success': true, data: bills};
+                res.send(response);
+            }
+        });
     });
     app.post('/pages/rentCarByModel', function (req, res) {
         var Car = require('../app/models/car')
@@ -152,8 +159,6 @@ module.exports = function (app, passport, mongoose) {
             if (err) {
                 console.log(err);
             } else {
-                console.log("this are cars----------------");
-                console.log(cars);
                 var response = {'success': true, data: cars};
                 res.send(response);
             }
@@ -166,18 +171,34 @@ module.exports = function (app, passport, mongoose) {
     });
     app.get('/pages/rentCarByLocation', function (req, res) {
         var Car = require('../app/models/car')
-        Car.find().populate('carType').exec(function (err, cars) {
+        Car.find().distinct('locationName').where('isAvailable').equals('true').exec(function (err,locations) {
+            if(err){
+
+            }else{
+                Car.find().populate('carType').exec(function (err, cars) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.render('pages/rentCarByLocation.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            locations: locations // get the cars out of session and pass to template
+                        });
+                    }
+                })
+            }
+        });
+
+    });
+    app.post('/getCarsByLocation', function (req, res) {
+        var Car = require('../app/models/car')
+        Car.find().populate('carType').where('locationName').equals(req.body.locationName).exec(function(err, cars) {
             if (err) {
                 console.log(err);
             } else {
-                res.render('pages/rentCarByLocation.ejs', {
-                    user: req.user, // get the user out of session and pass to template
-                    cars: cars // get the cars out of session and pass to template
-                });
+                res.send(cars);
             }
         });
     });
-
     //Route to receive signup form data
     app.get('/pages/verifyMe', function (req, res) {
         if (req.query == undefined || req.query.vc == undefined || req.query.vc == null) {
@@ -265,9 +286,6 @@ module.exports = function (app, passport, mongoose) {
                 cars: cars
             });
         });
-        console.log("this is cars");
-        console.log(Car);
-
     });
     app.post('/pages/addCar', isLoggedIn, function (req, res) {
         CarType.find().where('_id').equals(req.body.carType).exec(function (err, carType) {
@@ -321,7 +339,6 @@ module.exports = function (app, passport, mongoose) {
     });
     app.post('/pages/deleteCars', function (req, res) {
         for (var i in req.body.ids) {
-            // console.log("The id is: "+req.body.ids[i]);
             Car.findByIdAndRemove(req.body.ids[i], function (err, car) {
                 res.send("SUCCESS");
             });
@@ -345,7 +362,6 @@ module.exports = function (app, passport, mongoose) {
         bill.distanceTravelled = req.body.distanceTravelled;
         bill.car = Number(req.body.carId);
         bill.user = Number(req.user._id);
-        console.log(bill._id);
         bill.save(function (err, savedBill) {
             if (err) {
                 console.log("This is the initialization message: " + JSON.stringify(err));
