@@ -136,7 +136,7 @@
 								tr += "<td>" + cars[i].carName + ", " + cars[i].carModel + "</td>";
 								tr += "<td>" + cars[i].locationName + "</td>";
 								tr += "<td>" + cars[i].price + "</td>";
-								tr += '<td><a onClick="setCarId(' + cars[i]._id + ')" role="button" class="btn btn-primary" data-toggle="modal">Reserve</a></td>';
+								tr += '<td><a onClick="handleSetCarId(' + cars[i]._id + ')" role="button" class="btn btn-primary" data-toggle="modal">Reserve</a></td>';
 								tr += "</tr>";
 							}
 							tr += '</tbody>'
@@ -161,6 +161,22 @@
 				console.log(err);
 			},
 		});
+	}
+	function handleSetCarId(carId){
+        $.ajax({
+            url: '/isUserValid',
+            type: 'post',
+            success: function (result) {
+                if (result.success) {
+                    setCarId(carId);
+                    $('#modal-container-bill').modal({
+                        show: 'true'
+                    });
+                }else{
+                    window.location = "/login";
+                }
+            }
+        });
 	}
 </script>
 </body>

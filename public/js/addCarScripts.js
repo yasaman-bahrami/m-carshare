@@ -9,8 +9,8 @@ function getLatLangForAddress() {
                     suggestionDivs = "<div>No results were found. Change your search.</div>"
                 } else {
                     for (var i in results) {
-                        var lat = results[0].geometry.location.lat();
-                        var lng = results[0].geometry.location.lng();
+                        var lat = results[i].geometry.location.lat();
+                        var lng = results[i].geometry.location.lng();
                         suggestionDivs += "<div class='suggested-item' onclick='setThisSuggestionAsLocation(this);'>" +
                             "<div class='suggested-address'>" + results[i].formatted_address + "</div>" +
                             "<div class='suggested-lat'>" + lat + "</div>" +
