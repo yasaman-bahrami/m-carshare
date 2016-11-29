@@ -34,7 +34,7 @@
 											<button type="button" class="btn btn-success" id="<%= bills[i]._id %>">
 												Drop Off
 											</button>
-											<a id="modal-1" href="#modal-container-1" role="button" class="btn btn-warning reportDamageBTN" data-toggle="modal">Report Damage</a>
+											<a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button" class="btn btn-warning reportDamageBTN" data-toggle="modal">Report Damage</a>
 											<div class="modal fade" id="modal-container-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 												<div class="modal-dialog">
 													<div class="modal-content">
@@ -103,8 +103,13 @@
 				</div>
 
 				<div class="col-md-12 col-sm-12" id="mainBottom">
+					<h3>
+						Car History
+					</h3>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" style="width: 100%"></div>
+					</div>
 					<% if(billsHistory.length>0) {%>
-					<% console.log(billsHistory.size)%>
 					<table class="table table-striped table-hover table-bordered" id="carTable">
 						<thead>
 						<tr class="success">
@@ -120,6 +125,9 @@
 							<th>
 								Amount
 							</th>
+							<th>
+								Status
+							</th>
 						</tr>
 						</thead>
 						<tbody id="addedCarsBody">
@@ -128,12 +136,21 @@
 							<td><%= billsHistory[i].car.carName +", "+ billsHistory[i].car.carModel %></td>
 							<td><%= billsHistory[i].pickUpDate %></td>
 							<td><%= billsHistory[i].dropOffDate %></td>
-							<td><%="$"+ billsHistory[i].amount %></td>
+							<td><%="$"+ billsHistory[i].amount %>
+							<% if(billsHistory[i].isPayed){%>
+							<td>Payed</td>
+							<%}else{%>
+							<td id="payStatusField"><a onClick="payBill('<%=billsHistory[i]._id%>')" role="button" class="btn btn-primary" data-toggle="tab">Pay Now!</a></td>
+							<%}%>
 						</tr>
 						<%}%>
 						</tbody>
 					</table>
-					<%}%>
+					<%}else{%>
+					<div class="alert alert-dismissible alert-info">
+						<strong>Hey dear member!</strong> Start to find your desired car either <a href="/pages/rentCarByLocation" class="alert-link">By Location</a> or <a href="/pages/rentCarByModel" class="alert-link">By Model.</a>
+					</div>
+                    <%}%>
 				</div>
 			</div>
 		</div>
@@ -143,5 +160,22 @@
     <script src="../js/scripts.js"></script>
 	<script src="../js/damageReport.js"></script>
 	<script>
+        function payBill(billId){
+            $.ajax({
+                url: '/payBill',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    billId: billId+"",
+                },
+                success: function (result) {
+                    if (result.success) {
+                        $('#payStatusField').html('payed');
+                    }else{
+                        window.location = "/login";
+                    }
+                }
+            });
+        }
 	</script>
 </body>
