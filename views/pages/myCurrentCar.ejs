@@ -5,24 +5,39 @@
 	<title>M-Car Share My Current Car</title>
 </head>
 <body>
-
-<div class="container-fluid" id="container">
-	<div class="row">
-		<div class="col-md-12" id="main">
-			<% include ../partials/header %>
-			<ul class="breadcrumb" id="breadcrumb">
-				<li>
-					<a href="/index" class="active">Home</a>
-				</li>
-				<li class="active">My Car</li>
-			</ul>
-			<% for(var i in bills) {%>
-			<div class="row" id="contentPanel<%= bills[i]._id %>">
-				<div class="col-md-3"></div>
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-body">
-
+    <div class="container-fluid" id="container">
+		<div class="row">
+			<div class="col-md-12" id="main">
+				<% include ../partials/header %>
+				<ul class="breadcrumb" id="breadcrumb">
+					<li>
+						<a href="/index" class="active">Home</a>
+					</li>
+					<li class="active">My Car</li>
+				</ul>
+				<div class="row" id="contentPanel">
+					<% for(var i in bills) {%>
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-body">
+									<div class="row">
+										<div class="col-md-6">
+											<i class="fa fa-car fa-4x" aria-hidden="true"></i>
+											<dl id="car-row-<%=bills[i]._id%>">
+												<dt><%= bills[i].car.carName +", "+ bills[i].car.carModel %></dt>
+												<dd><%= "$"+bills[i].car.price + " CAD per kilometer"%></dd>
+												<dd><%= "Drop Off Date: "+bills[i].dropOffDate%></dd>
+											</dl>
+										</div>
+										<div class="col-md-6">
+											<button type="button" class="btn btn-success" id="<%= bills[i]._id %>">
+												Drop Off
+											</button>
+											<a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button" class="btn btn-warning reportDamageBTN" data-toggle="modal">Report Damage</a>
+											<div class="modal fade" id="modal-container-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
 							<div class="row">
 								<div class="col-md-6">
 									<img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg" />
@@ -55,7 +70,56 @@
 					</div>
 				</div>
 				<div class="col-md-3"></div>
-
+				<div class="col-md-12 col-sm-12" id="mainBottom">
+					<h3>
+						Car History
+					</h3>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" style="width: 100%"></div>
+					</div>
+					<% if(billsHistory.length>0) {%>
+					<table class="table table-striped table-hover table-bordered" id="carTable">
+						<thead>
+						<tr class="success">
+							<th>
+								Name
+							</th>
+							<th>
+								Pick Up Time
+							</th>
+							<th>
+								Drop Off Time
+							</th>
+							<th>
+								Amount
+							</th>
+							<th>
+								Status
+							</th>
+						</tr>
+						</thead>
+						<tbody id="addedCarsBody">
+						<% for(var i in billsHistory) {%>
+						<tr id="car-row-<%=billsHistory[i]._id%>">
+							<td><%= billsHistory[i].car.carName +", "+ billsHistory[i].car.carModel %></td>
+							<td><%= billsHistory[i].pickUpDate %></td>
+							<td><%= billsHistory[i].dropOffDate %></td>
+							<td><%="$"+ billsHistory[i].amount %>
+							<% if(billsHistory[i].isPayed){%>
+							<td>Payed</td>
+							<%}else{%>
+							<td id="payStatusField"><a onClick="payBill('<%=billsHistory[i]._id%>')" role="button" class="btn btn-primary" data-toggle="tab">Pay Now!</a></td>
+							<%}%>
+						</tr>
+						<%}%>
+						</tbody>
+					</table>
+					<%}else{%>
+					<div class="alert alert-dismissible alert-info">
+						<strong>Hey dear member!</strong> Start to find your desired car either <a href="/pages/rentCarByLocation" class="alert-link">By Location</a> or <a href="/pages/rentCarByModel" class="alert-link">By Model.</a>
+					</div>
+                    <%}%>
+				</div>
 			</div>
 			<%}%>
 		</div>
@@ -68,7 +132,25 @@
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/scripts.js"></script>
+<script src="../js/damageReport.js"></script>
 <script>
+    function payBill(billId){
+        $.ajax({
+            url: '/payBill',
+            type: 'post',
+            dataType: "json",
+            data: {
+                billId: billId+"",
+            },
+            success: function (result) {
+                if (result.success) {
+                    $('#payStatusField').html('payed');
+                }else{
+                    window.location = "/login";
+                }
+            }
+        });
+    }
 	var firstName = "<%= user.firstName %>" + " " + "<%= user.lastName %>"
 	function dropOffCar(billId, carId) {
 

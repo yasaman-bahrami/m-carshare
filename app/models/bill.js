@@ -14,6 +14,10 @@ var billSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isPayed: {
+        type: Boolean,
+        default: false
+    },
     distanceTravelled: String,
     amount: String,
     user : { type: mongoose.Schema.Types.Number, ref: 'user' },
@@ -28,7 +32,6 @@ billSchema.methods.find = function(){
         if (err) {console.log("error occured in find for bill!")}
         else{
             // object of all the users
-            console.log(docs);
             return docs;
         }
 
@@ -39,7 +42,6 @@ billSchema.methods.find = function(){
             if (err) {console.log("error occured in find for bill!")}
             else{
                 // object of all the users
-                console.log(bill);
                 return bill;
             }
 
