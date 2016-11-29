@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<!-- Bill Dialog start-->
-			<% include invoice.ejs %>
+			<% include invoiceWithCarList.ejs %>
 			<!-- Bill Dialog end -->
 		</div>
 	</div>
@@ -43,65 +43,14 @@
 			center: myLatLng,
 			zoom: 12
 		});
-		var markers = [];
 
-		<% for(var i in cars) {
-		if(cars[i].isAvailable){
+		<% for(var i in locations) {
+			var address = '';
+			address = locations[i];
 		%>
-		markers.push(["<%= cars[i].carType.type + ', ' + cars[i].carModel %>", "<%= cars[i].price %>", "<%= cars[i].latitude%>", "<%= cars[i].longitude%>","<%= cars[i]._id%>"]);
-		<% }
-		} %>
-		console.log(markers);
-//			var markers = [
-//				['Your Location','dd',latLng],
-//				['Economy, Corolla', 47.5682313, -52.7609158],
-//				['Economy, Kia Rio', 47.5717449, -52.7759548],
-//				['Compact, Nissan Versa Note', 47.5778123, -52.7744238],
-//				['Standard, Volkswagen Jetta', 47.6119316, -52.7564523],
-//				['Full Size, Nissan Altima', 47.5721388, -52.7469785],
-//				['Full Size, Nissan Altima', 47.5729182, -52.740646],
-//				['Compact, Nissan Versa Note', 47.5717126, -52.7372374],
-//				['Economy, Kia Rio', 47.5692171, -52.6782055],
-//				['Full Size, Nissan Altima', 47.6032398, -52.7215296],
-//				['Compact, Nissan Versa Note', 47.6035255, -52.6797746]
-//			];
 
-		for( i = 0; i < markers.length; i++ ) {
-			//console.log(markers[i][1]);
-			console.log(markers[i][4]);
-			var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
-
-			var marker = new google.maps.Marker({
-				position: position,
-				map: map,
-				title: markers[i][0] + "\nPrice Per Kilometer: " + markers[i][1]+"$",
-				icon: '../images/mapIcons/car.png',
-				id:markers[i][4]
-			});
-
-			marker.addListener('click', function() {
-				var carId = this.id;
-				$.ajax({
-					type: 'post',
-					url: '/isUserValid',
-					success: function (result) {
-						if (result.success) {
-							setCarId(carId);
-							$('#modal-container-bill').modal({
-								show: 'true'
-							});
-						}else{
-							window.location = "/login";
-						}
-					},
-					error: function () {
-						alert("A problem occured. Try again later.");
-					}
-				});
-			});
-		}
-
-
+		getLatitudeLogitudeByAddress("<%-address%>", "<%=i%>");
+	<%} %>
 	}
 
 	function getLocation() {
@@ -132,9 +81,77 @@
 				break;
 		}
 	}
+	function getLatitudeLogitudeByAddress(address, loopCounter){
+		if (address.length >0) {
+			var markers = [];
+			geocoder = new google.maps.Geocoder();
+			geocoder.geocode({'address': address}, function (results, sttus) {
+				if (sttus == google.maps.GeocoderStatus.OK) {
+					var suggestionDivs = "";
+					if (results.length == 0) {
+						suggestionDivs = "<div>No results were found. Change your search.</div>"
+					} else {
+						var lat = results[0].geometry.location.lat();
+						var lng = results[0].geometry.location.lng();
+						markers.push([lat , lng, address]);
+						for( i = 0; i < markers.length; i++ ) {
+							var position = new google.maps.LatLng(markers[i][0], markers[i][1]);
+
+							var marker = new google.maps.Marker({
+								position: position,
+								title: markers[i][2],
+								map: map,
+								icon: '../images/mapIcons/car.png',
+								id: loopCounter
+							});
+
+							marker.addListener('click', function() {
+								var carId = this.id;
+								$.ajax({
+									type: 'post',
+									dataType: "json",
+									data: {
+										locationName: address+"",
+									},
+									url: '/getCarsByLocation',
+									success: function(cars){
+                                        $.ajax({
+											url: '/isUserValid',
+                                            type: 'post',
+											 success: function (result) {
+												 if (result.success) {
+													 setCarId(carId);
+													 populateCars(cars);
+													 $('#modal-container-bill-car').modal({
+														show: 'true'
+													 });
+												 }else{
+												 	window.location = "/login";
+											 	}
+                                            }
+                                        });
+									},
+									error: function () {
+										alert("A problem occured. Try again later.");
+									}
+								});
+							});
+						}
+					}
+
+				} else {
+					console.log("Failed to retrieve any address information");
+				}
+
+			});
+		}
+
+	}
+
 </script>
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/scripts.js"></script>
 <script src="../js/bookCar.js"></script>
+
 </body>

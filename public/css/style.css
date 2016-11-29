@@ -31,6 +31,10 @@
 }
 #logo{
 	width: 300px;
+	color: inherit;
+}
+#logo:hover{
+	text-decoration: none;
 }
 #dropDownLogin{
 	margin: 0px;

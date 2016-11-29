@@ -36,7 +36,8 @@
                                         Drop Off
                                     </button>
                                     <a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button"
-                                       onclick="btnDamageReportClicked(<%= bills[i]._id %>)" class="btn btn-warning reportDamageBTN"
+                                       onclick="btnDamageReportClicked(<%= bills[i]._id %>)"
+                                       class="btn btn-warning reportDamageBTN"
                                        data-toggle="modal">Report Damage</a>
                                     <div class="modal fade" id="modal-container-1" role="dialog"
                                          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -100,52 +101,200 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img alt="Economy Car" src="../images/cars/economy.png" class="carModelImg"/>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <button type="button" class="btn btn-success"
+                                            onclick="dropOffCar('<%= bills[i]._id %>', '<%= bills[i].car._id %>');">
+                                        I dropped off the car
+                                    </button>
+                                    <button id="reportDamageBTN" type="button" class="btn btn-warning"
+                                            onclick="myFunction()">
+                                        I want ro report damages
+                                    </button>
+                                </div>
+                            </div>
+                            <dl>
+                                <dt>
+                                    You rented <%= bills[i].car.carModel %> <%= bills[i].car.carName %>
+                                </dt>
+                                <dd>
+                                    MANUAL
+                                </dd>
+                                <dt>
+                                    Per Kilometers
+                                </dt>
+                                <dd>
+                                    CAD <%= bills[i].car.price %>
+                                </dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
-                <% } %>
-            </div>
-
-            <div class="col-md-12 col-sm-12" id="mainBottom">
-                <% if(billsHistory.length > 0) { %>
-                <% console.log(billsHistory.size) %>
-                <table class="table table-striped table-hover table-bordered" id="carTable">
-                    <thead>
-                    <tr class="success">
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Pick Up Time
-                        </th>
-                        <th>
-                            Drop Off Time
-                        </th>
-                        <th>
-                            Amount
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="addedCarsBody">
-                    <% for(var i in billsHistory) { %>
-                    <tr id="car-row-<%= billsHistory[i]._id %>">
-                        <td><%= billsHistory[i].car.carName + ", " + billsHistory[i].car.carModel %></td>
-                        <td><%= billsHistory[i].pickUpDate %></td>
-                        <td><%= billsHistory[i].dropOffDate %></td>
-                        <td><%= "$" + billsHistory[i].amount %></td>
-                    </tr>
+                <div class="col-md-12 col-sm-12" id="mainBottom">
+                    <h3>
+                        Car History
+                    </h3>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" style="width: 100%"></div>
+                    </div>
+                    <% if(billsHistory.length > 0) { %>
+                    <table class="table table-striped table-hover table-bordered" id="carTable">
+                        <thead>
+                        <tr class="success">
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Pick Up Time
+                            </th>
+                            <th>
+                                Drop Off Time
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="addedCarsBody">
+                        <% for(var i in billsHistory) { %>
+                        <tr id="car-row-<%= billsHistory[i]._id %>">
+                            <td><%= billsHistory[i].car.carName + ", " + billsHistory[i].car.carModel %></td>
+                            <td><%= billsHistory[i].pickUpDate %></td>
+                            <td><%= billsHistory[i].dropOffDate %></td>
+                            <td><%= "$" + billsHistory[i].amount %>
+                                <% if(billsHistory[i].isPayed){ %>
+                            <td>Payed</td>
+                            <% }else{ %>
+                            <td id="payStatusField"><a onClick="payBill('<%= billsHistory[i]._id %>')" role="button"
+                                                       class="btn btn-primary" data-toggle="tab">Pay Now!</a></td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                    <% }else{ %>
+                    <div class="alert alert-dismissible alert-info">
+                        <strong>Hey dear member!</strong> Start to find your desired car either <a
+                                href="/pages/rentCarByLocation" class="alert-link">By Location</a> or <a
+                                href="/pages/rentCarByModel" class="alert-link">By Model.</a>
+                    </div>
                     <% } %>
-                    </tbody>
-                </table>
-                <% } %>
+                </div>
             </div>
+            <% } %>
         </div>
+
     </div>
 </div>
+<!-- Bill Dialog start-->
+<% include finalInvoice.ejs %>
+<!-- Bill Dialog end -->
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/scripts.js"></script>
 <script src="../js/damageReport.js"></script>
 <script>
+	function payBill(billId) {
+		$.ajax({
+			url: '/payBill',
+			type: 'post',
+			dataType: "json",
+			data: {
+				billId: billId + "",
+			},
+			success: function (result) {
+				if (result.success) {
+					$('#payStatusField').html('payed');
+				} else {
+					window.location = "/login";
+				}
+			}
+		});
+	}
+	var firstName = "<%= user.firstName %>" + " " + "<%= user.lastName %>"
+	function dropOffCar(billId, carId) {
+
+		var data = {
+			billId: billId,
+			carId: carId,
+			location: TrackCar(-180, 180, 3),
+			distanceTravelled: getDistance(1, 1000)
+		};
+
+		$.ajax({
+			type: 'post',
+			url: '/pages/dropOffCar',
+			data: data,
+			success: function (result) {
+				if (result == "ERROR") {
+					alert("A problem occured. Try again later.");
+				} else {
+
+					$("#contentPanel" + billId).remove();
+
+					$('#username').val(firstName);
+					$('#carname').val(result.data.car.carName);
+					$('#pickupDate').val(result.data.pickUpDate);
+					$('#pickUpTime').val(result.data.pickUpTime);
+					$('#dropOffDate').val(result.data.dropOffDate);
+					$('#dropOffTime').val(result.data.dropOffTime);
+					var amount = Number(result.data.amount) - Number(result.data.discount);
+					$('#amount').val(result.data.amount);
+					$('#discount').val(result.data.discount);
+					$('#totalAmount').val(amount);
+					$('#distance').val(result.data.distanceTravelled);
+					if (result.data.damage) {
+						$('#damage').val(result.data.damage.description);
+					} else {
+						$('#damage').val('None');
+					}
+
+
+					$('#modal-container-finalInvoice').modal('show');
+				}
+			},
+			error: function () {
+				alert("A problem occured. Try again later.");
+			}
+		});
+	}
+
+	// generate random location
+	function TrackCar(from, to, fixed) {
+		var location = {
+			latitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1,
+			longitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1
+		}
+		return location;
+	}
+
+	// generate random distance
+	function getDistance(minimum, maximum) {
+		return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+	}
+	function payBill(billId) {
+		$.ajax({
+			url: '/payBill',
+			type: 'post',
+			dataType: "json",
+			data: {
+				billId: billId + "",
+			},
+			success: function (result) {
+				if (result.success) {
+					$('#payStatusField').html('payed');
+				} else {
+					window.location = "/login";
+				}
+			}
+		});
+	}
+
 </script>
-</body>
