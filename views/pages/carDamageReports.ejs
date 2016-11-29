@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    <title>M-Car Share Damage Reports</title>
+</head>
+<body>
+<div class="container-fluid" id="container">
+    <div class="row">
+        <div class="col-md-12" id="main">
+            <% include ../partials/header %>
+            <div class="row" id="contentPanel">
+                <div class="col-md-3 col-sm-0"></div>
+                <div class="col-md-6 col-sm-12" id="mainBottom">
+                    <table class="table table-striped table-hover table-bordered" id="carTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Type ID
+                            </th>
+                            <th>
+                                Bill ID
+                            </th>
+                            <th>
+                                Customer ID
+                            </th>
+                            <th>
+                                Car ID
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="damageCarReportBody">
+                        <% for(var i in damages) {%>
+                        <tr id="damage-row-<%=damages[i]._id%>">
+                            <td><%= damages[i]._id %></td>
+                            <td><%= damages[i].description %></td>
+                            <td><%= damages[i].amount%></td>
+                            <td><%= damages[i].type %></td>
+                            <td><%= damages[i].bill._id %></td>
+                            <td><%= damages[i].bill.user %></td>
+                            <td><%= damages[i].bill.car %></td>
+                        </tr>
+                        <%}%>
+                        </tbody>
+                    </table>
+                    <div class="row">
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-0"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Pll40orqr8NI4RpnTxKlFE6GNXB1cK0"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/scripts.js"></script>
+<script src="../js/addCarScripts.js"></script>
+</body>
+</html>

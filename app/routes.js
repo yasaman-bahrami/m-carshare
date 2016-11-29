@@ -2,6 +2,7 @@ var Car = require('../app/models/car');
 var CarType = require('../app/models/carType');
 var User = require('../app/models/user');
 var Bill = require('../app/models/bill');
+var Damage = require('../app/models/damage');
 // Email verification
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
@@ -43,15 +44,15 @@ module.exports = function (app, passport, mongoose) {
             message: req.flash('loginMessage')
         });
     });
-    app.get('/logout', function(req, res) {
+    app.get('/logout', function (req, res) {
         req.logout();
         res.redirect('/index');
     });
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/index', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+        successRedirect: '/index', // redirect to the secure profile section
+        failureRedirect: '/login', // redirect back to the signup page if there is an error
+        failureFlash: true // allow flash messages
     }));
     // =====================================
     // PROFILE SECTION =========================
@@ -62,9 +63,9 @@ module.exports = function (app, passport, mongoose) {
         if(req.user.role=='admin'){
             res.redirect('/pages/addCar');
 
-        }else if(req.user.role=='client'){
+        } else if (req.user.role == 'client') {
             res.render('index.ejs', {
-                user : req.user // get the user out of session and pass to template
+                user: req.user // get the user out of session and pass to template
             });
 
         }
@@ -87,7 +88,52 @@ module.exports = function (app, passport, mongoose) {
                         res.render('pages/myCurrentCar.ejs', {
                             user: req.user, // get the user out of session and pass to template
                             billsHistory: billsHistory, // get the billsHistory out of session and pass to template
-                            bills:bills
+                            bills: bills
+                        });
+                    }
+                });
+                console.log("my current car is:");
+                console.log(bills);
+            }
+        });
+
+
+    });
+
+    app.post('/pages/myCurrentCar', isLoggedIn, function (req, res) {
+        Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(false).exec(function (err, bills) {
+            if (err) {
+                console.log(err);
+            } else {
+                Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(true).exec(function (err, billsHistory) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        var damage = new Damage();
+                        damage.description = req.body.description;
+                        damage.amount = req.body.amount;
+                        damage.type = req.body.damageType;
+                        damage.bill = req.body.billno;
+                        damage.save(function (err, savedDamage) {
+                            if (err) {
+                                console.log("This is the initialization message: " + JSON.stringify(err));
+                                res.send("ERROR");
+                                return;
+                            } else {
+                                var Damage = require('../app/models/damage')
+                                Damage.find().populate('bill').exec(function (err, damages) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        //console.log(damages);
+                                    }
+                                });
+                            }
+                        });
+                        res.render('pages/myCurrentCar.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            billsHistory: billsHistory, // get the billsHistory out of session and pass to template
+                            bills: bills
                         });
                     }
                 });
@@ -109,7 +155,7 @@ module.exports = function (app, passport, mongoose) {
     app.post('/pages/rentCarByModel', function (req, res) {
         var Car = require('../app/models/car')
         var type = Number(req.body.carType)
-        Car.find().populate('carType').where('carType').equals(type).exec(function(err, cars) {
+        Car.find().populate('carType').where('carType').equals(type).exec(function (err, cars) {
             if (err) {
                 console.log(err);
             } else {
@@ -127,14 +173,21 @@ module.exports = function (app, passport, mongoose) {
         var Car = require('../app/models/car')
         Car.find().distinct('locationName').where('isAvailable').equals('true').exec(function (err,locations) {
             if(err){
-                console.log(err);
-            } else {
-                res.render('pages/rentCarByLocation.ejs', {
-                    user: req.user, // get the user out of session and pass to template
-                    locations: locations, // get the cars out of session and pass to template
-                });
+
+            }else{
+                Car.find().populate('carType').exec(function (err, cars) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.render('pages/rentCarByLocation.ejs', {
+                            user: req.user, // get the user out of session and pass to template
+                            locations: locations // get the cars out of session and pass to template
+                        });
+                    }
+                })
             }
-        })
+        });
+
     });
     app.post('/getCarsByLocation', function (req, res) {
         var Car = require('../app/models/car')
@@ -226,7 +279,7 @@ module.exports = function (app, passport, mongoose) {
             }
         });
     });
-    app.get('/pages/addCar',isLoggedIn, function (req, res) {
+    app.get('/pages/addCar', isLoggedIn, function (req, res) {
         Car.find().populate('carType').exec(function (err, cars) {
             res.render('pages/addCar.ejs', {
                 user: req.user, // get the user out of session and pass to template
@@ -234,7 +287,7 @@ module.exports = function (app, passport, mongoose) {
             });
         });
     });
-    app.post('/pages/addCar',isLoggedIn, function (req, res) {
+    app.post('/pages/addCar', isLoggedIn, function (req, res) {
         CarType.find().where('_id').equals(req.body.carType).exec(function (err, carType) {
             if (err) {
                 console.logx("Error occured while fetching carType");
@@ -273,6 +326,17 @@ module.exports = function (app, passport, mongoose) {
             }
         });
     });
+    app.get('/pages/carDamageReports', function (req, res) {
+        var Damage = require('../app/models/damage')
+        Damage.find().populate('bill').populate('user').exec(function (err, damages) {
+            console.log(damages);
+            res.render('pages/carDamageReports.ejs', {
+                user: req.user, // get the user out of session and pass to template
+                damages: damages,
+            });
+        });
+
+    });
     app.post('/pages/deleteCars', function (req, res) {
         for (var i in req.body.ids) {
             Car.findByIdAndRemove(req.body.ids[i], function (err, car) {
@@ -280,17 +344,17 @@ module.exports = function (app, passport, mongoose) {
             });
         }
     });
-    app.post('/isUserValid', function(req, res){
-        if(req.isAuthenticated()){
+    app.post('/isUserValid', function (req, res) {
+        if (req.isAuthenticated()) {
             var response = {'success': true, data: ''};
             res.send(response);
-        }else{
+        } else {
             var response = {'success': false, data: ''};
             res.send(response);
         }
     });
 // book Car
-    app.post('/pages/bookCar',isLoggedIn, function (req, res) {
+    app.post('/pages/bookCar', isLoggedIn, function (req, res) {
 
         var bill = new Bill();
         bill.pickUpDate = req.body.pickUpDate;
