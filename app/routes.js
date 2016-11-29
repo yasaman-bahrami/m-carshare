@@ -96,6 +96,49 @@ module.exports = function (app, passport, mongoose) {
         });
     });
 
+	app.post('/pages/myCurrentCar', isLoggedIn, function (req, res) {
+		Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(false).exec(function (err, bills) {
+			if (err) {
+				console.log(err);
+			} else {
+				Bill.find().populate('car').populate('user').populate('carType').where('user').equals(req.user.id).where('isFinished').equals(true).exec(function (err, billsHistory) {
+					if (err) {
+						console.log(err);
+					} else {
+						var damage = new Damage();
+						damage.description = req.body.description;
+
+						damage.amount = "0";
+						damage.type = req.body.damageType;
+						damage.bill = req.body.billno;
+						damage.save(function (err, savedDamage) {
+							if (err) {
+								console.log("This is the initialization message: " + JSON.stringify(err));
+								res.send("ERROR");
+								return;
+							} else {
+								var Damage = require('../app/models/damage')
+								Damage.find().populate('bill').exec(function (err, damages) {
+									if (err) {
+										console.log(err);
+									} else {
+										//console.log(damages);
+									}
+								});
+							}
+						});
+						res.render('pages/myCurrentCar.ejs', {
+							user: req.user, // get the user out of session and pass to template
+							billsHistory: billsHistory, // get the billsHistory out of session and pass to template
+							bills: bills
+						});
+					}
+				});
+			}
+		});
+
+	});
+
     app.get('/pages/test', isLoggedIn, function (req, res) {
 
         var Bill = require('../app/models/bill');
@@ -294,6 +337,35 @@ module.exports = function (app, passport, mongoose) {
             }
         });
     });
+	app.get('/pages/carDamageReports', function (req, res) {
+		var Damage = require('../app/models/damage')
+		Damage.find().populate('bill').populate('user').exec(function (err, damages) {
+			//console.log(damages);
+			res.render('pages/carDamageReports.ejs', {
+				user: req.user, // get the user out of session and pass to template
+				damages: damages,
+			});
+		});
+
+	});
+	app.post('/pages/carDamageReports', function (req, res) {
+		var Damage = require('../app/models/damage')
+		Damage.update({"amount": req.body.dmgAmount}).where('_id').equals(req.body.damageNo).exec(function (err, changedDamages) {
+			if (err) {
+				console.logx("Error occured while fetching damageID");
+				res.send("ERROR IN find damageID");
+			} else {
+				Damage.find().populate('bill').populate('user').exec(function (err, damages) {
+					res.render('pages/carDamageReports.ejs', {
+						user: req.user, // get the user out of session and pass to template
+						damages: damages,
+					});
+				});
+			}
+		});
+
+
+	});
     app.post('/pages/deleteCars', function (req, res) {
         for (var i in req.body.ids) {
             Car.findByIdAndRemove(req.body.ids[i], function (err, car) {
