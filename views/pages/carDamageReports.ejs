@@ -25,13 +25,13 @@
                                 Amount
                             </th>
                             <th>
-                                Type ID
+                                Type
                             </th>
                             <th>
-                                Bill ID
+                                Bill PRICE
                             </th>
                             <th>
-                                Customer ID
+                                Customer Info
                             </th>
                             <th>
                                 Car Plate Number
@@ -39,7 +39,7 @@
                         </tr>
                         </thead>
                         <tbody id="damageCarReportBody">
-                        <% for(var i in damages) { %>
+                        <% if(damages.length>0){for(var i in damages) { %>
                         <tr id="damage-row-<%= damages[i]._id %>">
                             <td><input type="checkbox" class="myDamages" id="<%= damages[i]._id %>" onclick="btnDamageEditClicked('<%= damages[i]._id %>', '<%= damages[i].amount %>')"/></td>
                             <td><%= damages[i].description %></td>
@@ -49,7 +49,7 @@
                             <td><%= damages[i].bill.user %></td>
                             <td><%= damages[i].bill.car.carPlateNo %></td>
                         </tr>
-                        <% } %>
+                        <% } }%>
                         </tbody>
                         </form>
                     </table>

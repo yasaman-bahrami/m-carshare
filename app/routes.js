@@ -116,12 +116,12 @@ module.exports = function (app, passport, mongoose) {
 								res.send("ERROR");
 								return;
 							} else {
-								var Damage = require('../app/models/damage')
-								Damage.find().populate('bill').exec(function (err, damages) {
+								Bill.update({"damage":savedDamage._id}).where('_id').equals(req.body.billno).exec(function(err, updatedBill) {
 									if (err) {
 										console.log(err);
 									} else {
-										//console.log(damages);
+										console.log(updatedBill);
+										console.log("Done!");
 									}
 								});
 							}
@@ -168,7 +168,7 @@ module.exports = function (app, passport, mongoose) {
     });
     app.get('/pages/rentCarByLocation', function (req, res) {
         var Car = require('../app/models/car')
-        Car.find().distinct('locationName').where('isAvailable').equals('true').exec(function (err,locations) {
+        Car.find().distinct('locationName').where('isAvailable').equals(true).exec(function (err,locations) {
             if(err){
             } else {
                 res.render('pages/rentCarByLocation.ejs', {
@@ -180,7 +180,7 @@ module.exports = function (app, passport, mongoose) {
     });
     app.post('/getCarsByLocation', function (req, res) {
         var Car = require('../app/models/car')
-        Car.find().populate('carType').where('locationName').equals(req.body.locationName).exec(function(err, cars) {
+        Car.find().populate('carType').where('locationName').equals(req.body.locationName).where('isAvailable').equals(true).exec(function(err, cars) {
             if (err) {
                 console.log(err);
             } else {
@@ -371,6 +371,7 @@ module.exports = function (app, passport, mongoose) {
 	    bill.distanceTravelled = req.body.distanceTravelled;
         bill.car = Number(req.body.carId);
         bill.user = Number(req.user._id);
+        bill.damage = null;
         bill.save(function (err, savedBill) {
             if (err) {
                 console.log("This is the initialization message: " + JSON.stringify(err));
@@ -425,10 +426,10 @@ module.exports = function (app, passport, mongoose) {
 				bill.distanceTravelled = data.distanceTravelled;
 				bill.isFinished = true;
 				bill.amount = Number(bill.car.price) * Number(data.distanceTravelled);
-				if ( bill.damage ) {
-					bill.discount = 0;
-				} else {
+				if ( bill.damage == null ) {
 					bill.discount = ( bill.amount ) * 10/100;
+				} else {
+					bill.discount = 0;
 				}
 
 				bill.save(function (err, savedBill) {

@@ -33,7 +33,8 @@ $('#addDamageReportForm').on('submit', function (e) {
             if (result == "ERROR") {
                 alert("A problem occured. Try again later.");
             } else {
-                $("#modal-container-1").modal('hide');
+	            $("#modal-"+billno).replaceWith($('#damageReported-'+billno));
+	            $('#modal-container-1').modal('hide');
             }
         },
         error: function () {

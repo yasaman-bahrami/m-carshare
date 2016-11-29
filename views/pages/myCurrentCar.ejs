@@ -18,7 +18,7 @@
             </ul>
             <div class="row" id="contentPanel">
                 <% for(var i in bills) { %>
-                <div class="col-md-4">
+                <div class="col-md-4" id="myCurrentCar-<%= bills[i]._id %>">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="row">
@@ -35,10 +35,16 @@
                                     <button type="button" onclick="dropOffCar('<%= bills[i]._id %>', '<%= bills[i].car._id %>');"class="btn btn-success" id="<%= bills[i]._id %>">
                                         Drop Off
                                     </button>
+                                    <% if (bills[i].damage == null) {%>
                                     <a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button"
                                        onclick="btnDamageReportClicked(<%= bills[i]._id %>)"
                                        class="btn btn-warning reportDamageBTN"
                                        data-toggle="modal">Report Damage</a>
+                                    <%}else{%>
+                                    <div id= "damageReported-<%= bills[i]._id %>" class="alert alert-dismissible alert-danger" style="margin-top: 5px;">
+                                        <strong>Damage Already Reported!</strong> <a href=tel:555-555-5555" class="alert-link"><i class="fa fa-mobile" aria-hidden="true"> Please call us.</i></a>
+                                    </div>
+                                    <%}%>
                                     <div class="modal fade" id="modal-container-1" role="dialog"
                                          aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -60,14 +66,14 @@
                                                                 Type</label>
                                                             <select class="form-control" id="damageType"
                                                                     name="damageType">
-                                                                <option value="6">Rear-end collisions</option>
+                                                                <option value="Rear-end collisions">Rear-end collisions</option>
                                                                 <option value="7">Side-impact collisions</option>
-                                                                <option value="8">Sideswipe collisions</option>
-                                                                <option value="9">Vehicle Rollover</option>
-                                                                <option value="10">Head-on collisions</option>
-                                                                <option value="11">Single car accidents</option>
-                                                                <option value="11">Multi-vehicle pile-ups</option>
-                                                                <option value="11">personal injury</option>
+                                                                <option value="Side-impact collisions">Sideswipe collisions</option>
+                                                                <option value="Vehicle Rollover">Vehicle Rollover</option>
+                                                                <option value="Head-on collisions">Head-on collisions</option>
+                                                                <option value="Single car accidents">Single car accidents</option>
+                                                                <option value="Multi-vehicle pile-ups">Multi-vehicle pile-ups</option>
+                                                                <option value="personal injury">personal injury</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
@@ -222,13 +228,13 @@
 					$('#totalAmount').val(amount);
 					$('#distance').val(result.data.distanceTravelled);
 					if (result.data.damage) {
-						$('#damage').val(result.data.damage.description);
+						$('#damage').val(result.data.damage.type);
 					} else {
 						$('#damage').val('None');
 					}
-
-
-					$('#modal-container-finalInvoice').modal('show');
+                    $("#myCurrentCar-"+billId).fadeOut("slow",function(){
+	                    $('#modal-container-finalInvoice').modal('show');
+                    });
 				}
 			},
 			error: function () {
