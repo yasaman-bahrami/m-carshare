@@ -5,6 +5,7 @@
     <title>M-Car Share My Current Car</title>
 </head>
 <body>
+
 <div class="container-fluid" id="container">
     <div class="row">
         <div class="col-md-12" id="main">
@@ -27,6 +28,7 @@
                                         <dt><%= bills[i].car.carName + ", " + bills[i].car.carModel %></dt>
                                         <dd><%= "$" + bills[i].car.price + " CAD per kilometer" %></dd>
                                         <dd><%= "Drop Off Date: " + bills[i].dropOffDate %></dd>
+                                        <dd><%= "Bill no: " + bills[i]._id %></dd>
                                     </dl>
                                 </div>
                                 <div class="col-md-6">
@@ -34,14 +36,68 @@
                                         Drop Off
                                     </button>
                                     <a id="modal-<%= bills[i]._id %>" href="#modal-container-1" role="button"
-                                       class="btn btn-warning reportDamageBTN" data-toggle="modal">Report Damage</a>
+                                       onclick="btnDamageReportClicked(<%= bills[i]._id %>)"
+                                       class="btn btn-warning reportDamageBTN"
+                                       data-toggle="modal">Report Damage</a>
                                     <div class="modal fade" id="modal-container-1" role="dialog"
                                          aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header"></div>
+                                                <div class="modal-header">
+
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">
+                                                        ×
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel">
+                                                        Report a car damage
+                                                    </h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form role="form" id="addDamageReportForm">
+                                                        <div class="form-group">
+                                                            <label for="select" class=" control-label">Damage
+                                                                Type</label>
+                                                            <select class="form-control" id="damageType"
+                                                                    name="damageType">
+                                                                <option value="6">Rear-end collisions</option>
+                                                                <option value="7">Side-impact collisions</option>
+                                                                <option value="8">Sideswipe collisions</option>
+                                                                <option value="9">Vehicle Rollover</option>
+                                                                <option value="10">Head-on collisions</option>
+                                                                <option value="11">Single car accidents</option>
+                                                                <option value="11">Multi-vehicle pile-ups</option>
+                                                                <option value="11">personal injury</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                Description
+                                                            </label>
+                                                            <input type="description" required class="form-control"
+                                                                   name="description" id="description"/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label id="myBill">
+                                                            </label>
+                                                            <input type="hidden" required class="form-control"
+                                                                   name="billno" id="billno">
+                                                        </div>
+                                                        <input type="hidden" name="carId" id="carId"/>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                            <input type="submit" class="btn btn-primary" id="addCar"
+                                                                   value="Save changes"/>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +108,7 @@
                                 <div class="col-md-6">
 
                                     <button type="button" class="btn btn-success"
-                                            onclick="dropOffCar(<%= bills[i]._id %>, <%= bills[i].car._id %>);">
+                                            onclick="dropOffCar('<%= bills[i]._id %>', '<%= bills[i].car._id %>');">
                                         I dropped off the car
                                     </button>
                                     <button id="reportDamageBTN" type="button" class="btn btn-warning"
@@ -78,7 +134,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3"></div>
                 <div class="col-md-12 col-sm-12" id="mainBottom">
                     <h3>
                         Car History
@@ -113,7 +168,7 @@
                             <td><%= billsHistory[i].car.carName + ", " + billsHistory[i].car.carModel %></td>
                             <td><%= billsHistory[i].pickUpDate %></td>
                             <td><%= billsHistory[i].dropOffDate %></td>
-                            <td><%= "$"+ billsHistory[i].amount %>
+                            <td><%= "$" + billsHistory[i].amount %>
                                 <% if(billsHistory[i].isPayed){ %>
                             <td>Payed</td>
                             <% }else{ %>
@@ -146,101 +201,100 @@
 <script src="../js/scripts.js"></script>
 <script src="../js/damageReport.js"></script>
 <script>
-    function payBill(billId) {
-        $.ajax({
-            url: '/payBill',
-            type: 'post',
-            dataType: "json",
-            data: {
-                billId: billId + "",
-            },
-            success: function (result) {
-                if (result.success) {
-                    $('#payStatusField').html('payed');
-                } else {
-                    window.location = "/login";
-                }
-            }
-        });
-    }
-    var firstName = "<%= user.firstName %>" + " " + "<%= user.lastName %>"
-    function dropOffCar(billId, carId) {
+	function payBill(billId) {
+		$.ajax({
+			url: '/payBill',
+			type: 'post',
+			dataType: "json",
+			data: {
+				billId: billId + "",
+			},
+			success: function (result) {
+				if (result.success) {
+					$('#payStatusField').html('payed');
+				} else {
+					window.location = "/login";
+				}
+			}
+		});
+	}
+	var firstName = "<%= user.firstName %>" + " " + "<%= user.lastName %>"
+	function dropOffCar(billId, carId) {
 
-        var data = {
-            billId: billId,
-            carId: carId,
-            location: TrackCar(-180, 180, 3),
-            distanceTravelled: getDistance(1, 1000)
-        };
+		var data = {
+			billId: billId,
+			carId: carId,
+			location: TrackCar(-180, 180, 3),
+			distanceTravelled: getDistance(1, 1000)
+		};
 
-        $.ajax({
-            type: 'post',
-            url: '/pages/dropOffCar',
-            data: data,
-            success: function (result) {
-                if (result == "ERROR") {
-                    alert("A problem occured. Try again later.");
-                } else {
+		$.ajax({
+			type: 'post',
+			url: '/pages/dropOffCar',
+			data: data,
+			success: function (result) {
+				if (result == "ERROR") {
+					alert("A problem occured. Try again later.");
+				} else {
 
-                    $("#contentPanel" + billId).remove();
+					$("#contentPanel" + billId).remove();
 
-                    $('#username').val(firstName);
-                    $('#carname').val(result.data.car.carName);
-                    $('#pickupDate').val(result.data.pickUpDate);
-                    $('#pickUpTime').val(result.data.pickUpTime);
-                    $('#dropOffDate').val(result.data.dropOffDate);
-                    $('#dropOffTime').val(result.data.dropOffTime);
-                    var amount = Number(result.data.amount) - Number(result.data.discount);
-                    $('#amount').val(result.data.amount);
-                    $('#discount').val(result.data.discount);
-                    $('#totalAmount').val(amount);
-                    $('#distance').val(result.data.distanceTravelled);
-                    if (result.data.damage) {
-                        $('#damage').val(result.data.damage.description);
-                    } else {
-                        $('#damage').val('None');
-                    }
+					$('#username').val(firstName);
+					$('#carname').val(result.data.car.carName);
+					$('#pickupDate').val(result.data.pickUpDate);
+					$('#pickUpTime').val(result.data.pickUpTime);
+					$('#dropOffDate').val(result.data.dropOffDate);
+					$('#dropOffTime').val(result.data.dropOffTime);
+					var amount = Number(result.data.amount) - Number(result.data.discount);
+					$('#amount').val(result.data.amount);
+					$('#discount').val(result.data.discount);
+					$('#totalAmount').val(amount);
+					$('#distance').val(result.data.distanceTravelled);
+					if (result.data.damage) {
+						$('#damage').val(result.data.damage.description);
+					} else {
+						$('#damage').val('None');
+					}
 
 
-                    $('#modal-container-finalInvoice').modal('show');
-                }
-            },
-            error: function () {
-                alert("A problem occured. Try again later.");
-            }
-        });
-    }
+					$('#modal-container-finalInvoice').modal('show');
+				}
+			},
+			error: function () {
+				alert("A problem occured. Try again later.");
+			}
+		});
+	}
 
-    // generate random location
-    function TrackCar(from, to, fixed) {
-        var location = {
-            latitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1,
-            longitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1
-        }
-        return location;
-    }
+	// generate random location
+	function TrackCar(from, to, fixed) {
+		var location = {
+			latitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1,
+			longitude: (Math.random() * (to - from) + from).toFixed(fixed) * 1
+		}
+		return location;
+	}
 
-    // generate random distance
-    function getDistance(minimum, maximum) {
-        return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-    }
-    function payBill(billId) {
-        $.ajax({
-            url: '/payBill',
-            type: 'post',
-            dataType: "json",
-            data: {
-                billId: billId + "",
-            },
-            success: function (result) {
-                if (result.success) {
-                    $('#payStatusField').html('payed');
-                } else {
-                    window.location = "/login";
-                }
-            }
-        });
-    }
+	// generate random distance
+	function getDistance(minimum, maximum) {
+		return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+	}
+	function payBill(billId) {
+		$.ajax({
+			url: '/payBill',
+			type: 'post',
+			dataType: "json",
+			data: {
+				billId: billId + "",
+			},
+			success: function (result) {
+				if (result.success) {
+					$('#payStatusField').html('payed');
+				} else {
+					window.location = "/login";
+				}
+			}
+		});
+	}
 
 </script>
-</body>
