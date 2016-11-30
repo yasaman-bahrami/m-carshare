@@ -48,7 +48,7 @@ $('#addDamageReportForm').on('submit', function (e) {
 
 $('#editDamageForm').on('submit', function (e) {
     var dmgAmount = $("#dmgAmount").val();
-    //alert(dmgAmount);
+    var dmgId = $("#damageNo").val();
     e.preventDefault();
     $.ajax({
         type: 'post',
@@ -58,45 +58,7 @@ $('#editDamageForm').on('submit', function (e) {
             if (result == "ERROR") {
                 alert("A problem occured. Try again later.");
             } else {
-                var table = document.getElementById("damageTable").tBodies[0];
-                var rowCount = table.rows.length;
-                var ids = [];
-                var toBeEditedRowNos = [];
-                for (var i = 0; i < rowCount; i++) {
-                    var row = table.rows[i];
-                    var chkbox = row.cells[0].getElementsByTagName('input')[0];
-                    if ('checkbox' == chkbox.type && true == chkbox.checked) {
-                        ids.push($(chkbox).attr('id'));
-                        toBeEditedRowNos.push(i);
-                    }
-                }
-                $.ajax({
-                    type: 'post',
-                    url: '/pages/carDamageReports',
-                    data: {ids: ids},
-                    success: function (result) {
-                        var table = document.getElementById("damageTable").tBodies[0];
-                        for(var i in ids){
-                            var selected_row = $("#damage-row-"+ids[i]);
-                            //table.getElementById('d_r_amount').innerHTML = dmgAmount;
-
-                            //selected_row.get
-
-                            $('#damage-row-'+ ids[i] + ' td:nth-child(3)').html(dmgAmount);
-
-                            //alert();
-
-                            //alert( $("#damage-row-"+ids[i]).html());
-                                //.attr('d_r_amount').val("AAA");
-                            // $("#damage-row-"+ids[i]).html()
-
-
-                        }
-                    },
-                    error: function () {
-                        alert("A problem occured. Try again later.");
-                    }
-                });
+                $("#damageCarReportBody tr#damage-row-"+dmgId+" td#d_r_amount").html(dmgAmount);
                 $('#modal-container-393652').modal('hide');
 
             }
@@ -105,5 +67,4 @@ $('#editDamageForm').on('submit', function (e) {
             alert("A problem occured. Try again later.");
         }
     });
-    // e.preventDefault();
 });

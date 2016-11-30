@@ -329,13 +329,10 @@ module.exports = function (app, passport, mongoose) {
 		Damage.update({"amount": req.body.dmgAmount}).where('_id').equals(req.body.damageNo).exec(function (err, changedDamages) {
 			if (err) {
 				console.logx("Error occured while fetching damageID");
-				res.send("ERROR IN find damageID");
+				res.send("ERROR");
 			} else {
 				Damage.find().populate('bill').populate('user').exec(function (err, damages) {
-					res.render('pages/carDamageReports.ejs', {
-						user: req.user, // get the user out of session and pass to template
-						damages: damages,
-					});
+					res.send("SUCCESS");
 				});
 			}
 		});
