@@ -314,8 +314,8 @@ module.exports = function (app, passport, mongoose) {
             }
         });
     });
-	app.get('/pages/carDamageReports', function (req, res) {
-		var Bill = require('../app/models/bill')
+	app.get('/pages/carDamageReports', isLoggedIn, function (req, res) {
+		var Bill = require('../app/models/bill');
 		Bill.find().populate('damage').populate('user').populate('car').where('damage').ne(null).exec(function (err, bills) {
 			res.render('pages/carDamageReports.ejs', {
 				user: req.user, // get the user out of session and pass to template
@@ -324,7 +324,7 @@ module.exports = function (app, passport, mongoose) {
 		});
 
 	});
-	app.post('/pages/carDamageReports', function (req, res) {
+	app.post('/pages/carDamageReports', isLoggedIn, function (req, res) {
 		var Damage = require('../app/models/damage')
 		Damage.update({"amount": req.body.dmgAmount}).where('_id').equals(req.body.damageNo).exec(function (err, changedDamages) {
 			if (err) {
