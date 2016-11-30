@@ -33,7 +33,9 @@ $('#addDamageReportForm').on('submit', function (e) {
             if (result == "ERROR") {
                 alert("A problem occured. Try again later.");
             } else {
-	            $("#modal-"+billno).replaceWith($('#damageReported-'+billno));
+	            $("#modal-"+billno).fadeOut("slow",function(){
+	                $("div.col-md-6 button#"+billno).parent().append('<div id= "damageReported-'+billno+'" class="alert alert-dismissible alert-danger" style="margin-top: 5px;"> <strong>Damage Already Reported!</strong> <a href=tel:555-555-5555" class="alert-link"><i class="fa fa-mobile" aria-hidden="true"> Please call us.</i></a> </div>');
+                });
 	            $('#modal-container-1').modal('hide');
             }
         },
@@ -68,7 +70,6 @@ $('#editDamageForm').on('submit', function (e) {
                         toBeEditedRowNos.push(i);
                     }
                 }
-                console.log(toBeEditedRowNos);
                 $.ajax({
                     type: 'post',
                     url: '/pages/carDamageReports',

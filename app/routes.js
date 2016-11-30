@@ -120,7 +120,6 @@ module.exports = function (app, passport, mongoose) {
 									if (err) {
 										console.log(err);
 									} else {
-										console.log(updatedBill);
 										console.log("Done!");
 									}
 								});
@@ -316,12 +315,11 @@ module.exports = function (app, passport, mongoose) {
         });
     });
 	app.get('/pages/carDamageReports', function (req, res) {
-		var Damage = require('../app/models/damage')
-		Damage.find().populate('bill').populate('user').exec(function (err, damages) {
-			//console.log(damages);
+		var Bill = require('../app/models/bill')
+		Bill.find().populate('damage').populate('user').populate('car').where('damage').ne(null).exec(function (err, bills) {
 			res.render('pages/carDamageReports.ejs', {
 				user: req.user, // get the user out of session and pass to template
-				damages: damages,
+				bills: bills,
 			});
 		});
 
@@ -419,8 +417,6 @@ module.exports = function (app, passport, mongoose) {
 				res.send("ERROR");
 				return;
 			} else {
-				console.log("this is current bill");
-				console.log(bill);
 				bill.latitude = data.location.latitude;
 				bill.longitude = data.location.longitude;
 				bill.distanceTravelled = data.distanceTravelled;

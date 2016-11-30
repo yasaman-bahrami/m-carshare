@@ -39,15 +39,15 @@
                         </tr>
                         </thead>
                         <tbody id="damageCarReportBody">
-                        <% if(damages.length>0){for(var i in damages) { %>
-                        <tr id="damage-row-<%= damages[i]._id %>">
-                            <td><input type="checkbox" class="myDamages" id="<%= damages[i]._id %>" onclick="btnDamageEditClicked('<%= damages[i]._id %>', '<%= damages[i].amount %>')"/></td>
-                            <td><%= damages[i].description %></td>
-                            <td name="d_r_amount" id="d_r_amount"><%= damages[i].amount %></td>
-                            <td><%= damages[i].type %></td>
-                            <td><%= damages[i].bill._id %></td>
-                            <td><%= damages[i].bill.user %></td>
-                            <td><%= damages[i].bill.car.carPlateNo %></td>
+                        <% if(bills.length>0){for(var i in bills) { %>
+                        <tr id="damage-row-<%= bills[i].damage._id %>">
+                            <td><input type="checkbox" class="myDamages" id="<%= bills[i].damage._id %>" onclick="btnDamageEditClicked('<%= bills[i].damage._id %>', '<%= bills[i].damage.amount %>')"/></td>
+                            <td><%= bills[i].damage.description %></td>
+                            <td name="d_r_amount" id="d_r_amount"><%= bills[i].damage.amount %></td>
+                            <td><%= bills[i].damage.type %></td>
+                            <td><%= bills[i]._id %></td>
+                            <td><%= bills[i].user.firstName %></td>
+                            <td><%= bills[i].car.carPlateNo %></td>
                         </tr>
                         <% } }%>
                         </tbody>

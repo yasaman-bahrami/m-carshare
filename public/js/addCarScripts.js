@@ -91,7 +91,6 @@ function deleteRow() {
             toBeDeletedRowNos.push(i);
         }
     }
-    console.log(toBeDeletedRowNos);
     $.ajax({
         type: 'post',
         url: '/pages/deleteCars',

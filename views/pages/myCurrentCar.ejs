@@ -150,7 +150,7 @@
                                 <% if(billsHistory[i].isPayed){ %>
                             <td>Payed</td>
                             <% }else{ %>
-                            <td id="payStatusField"><a onClick="payBill('<%= billsHistory[i]._id %>')" role="button"
+                            <td id="payStatusField-<%= billsHistory[i]._id %>"><a onClick="payBill('<%= billsHistory[i]._id %>')" role="button"
                                                        class="btn btn-primary" data-toggle="tab">Pay Now!</a></td>
                             <% } %>
                         </tr>
@@ -188,7 +188,7 @@
 			},
 			success: function (result) {
 				if (result.success) {
-					$('#payStatusField').html('payed');
+					$('#payStatusField-'+billId).html('payed');
 				} else {
 					window.location = "/login";
 				}
@@ -256,23 +256,5 @@
 	function getDistance(minimum, maximum) {
 		return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 	}
-	function payBill(billId) {
-		$.ajax({
-			url: '/payBill',
-			type: 'post',
-			dataType: "json",
-			data: {
-				billId: billId + "",
-			},
-			success: function (result) {
-				if (result.success) {
-					$('#payStatusField').html('payed');
-				} else {
-					window.location = "/login";
-				}
-			}
-		});
-	}
-
 </script>
 </body>
