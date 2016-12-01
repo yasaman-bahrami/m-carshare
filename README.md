@@ -32,6 +32,7 @@ To run the application please issue the following commands: <br/>
 ID: yasaman.bahrami@gmail.com
 Password: 123456
 <br/>
+<br/>
 <b>Features of M-Car Share system:</b> <br/>
 1) Guest users can look for the available cars by location and model.<br/>
 2) Guest users can signup in the system and confirm their account via verification email.<br/>
