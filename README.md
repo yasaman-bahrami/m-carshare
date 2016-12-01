@@ -26,15 +26,22 @@ To run the application please issue the following commands: <br/>
 <br/>
 <b>node</b> app.js
 
+<br/>
+<b>Admin Login:</b> 
+<br/>
+ID: yasaman.bahrami@gmail.com
+Password: 123456
+<br/>
 <b>Features of M-Car Share system:</b> <br/>
 1) Guest users can look for the available cars by location and model.<br/>
 2) Guest users can signup in the system and confirm their account via verification email.<br/>
 3) Registered members can book cars by preferred model and location.<br/>
 4) When member books a car, bill is saved in the system internally.<br/>
-5) User can see booked cars in the MyCar tab.<br/>
-6) When member returns a car, bill is generated to the user.<br/>
-7) Member can report the damages in the system.<br/>
-8) Member will get discount if there is no damage history.<br/>
-9) Admin can add and delete cars in the system.<br/>
-10) Admin can check the reported damages.<br/>
-11) Admin can track cars.
+5) User can book cars only for 12 hours to ensure having cars in our inventory. <br/>
+6) User can see booked cars in the MyCar tab.<br/>
+7) When member returns a car, bill is generated to the user.<br/>
+8) Member can report the damages in the system.<br/>
+9) Member will get discount if there is no damage history.<br/>
+10) Admin can add and delete cars in the system.<br/>
+11) Admin can check the reported damages.<br/>
+12) Admin can track cars.
